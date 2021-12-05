@@ -3,9 +3,15 @@ import ReactDOM from "react-dom";
 import { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import "reset-css";
+import styled from "styled-components";
 
 import initialData from "./initial-data";
 import Column from "./components/Column";
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const App = () => {
   const [st, setSt] = useState(initialData);
@@ -31,16 +37,41 @@ const App = () => {
       return;
     }
 
-    const column = st.columns[source.droppableId];
-    const newTaskIds = [...column.taskIds];
-    newTaskIds.splice(source.index, 1);
-    newTaskIds.splice(destination.index, 0, draggableId);
+    const start = st.columns[source.droppableId];
+    const finish = st.columns[destination.droppableId];
 
-    const newColumn = { ...column, taskIds: newTaskIds };
+    if (start === finish) {
+      const newTaskIds = [...start.taskIds];
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = { ...start, taskIds: newTaskIds };
+      const newState = {
+        ...st,
+        columns: { ...st.columns, [newColumn.id]: newColumn },
+      };
+      setSt(newState);
+      return;
+    }
+    //moving from one list to another
+    const startTaskIds = [...start.taskIds];
+    startTaskIds.splice(source.index, 1);
+    const newStartColumn = { ...start, taskIds: startTaskIds };
+
+    const finishTaskIds = [...finish.taskIds];
+    console.log("dra: ", draggableId);
+    finishTaskIds.splice(destination.index, 0, draggableId);
+    const newFinishColumn = { ...finish, taskIds: finishTaskIds };
+
     const newState = {
       ...st,
-      columns: { ...st.columns, [newColumn.id]: newColumn },
+      columns: {
+        ...st.columns,
+        [newStartColumn.id]: newStartColumn,
+        [newFinishColumn.id]: newFinishColumn,
+      },
     };
+    console.log("newState: ", newState);
     setSt(newState);
   };
   const onDragStart = () => {
@@ -55,13 +86,15 @@ const App = () => {
     document.body.style.backgroundColor = `rgba(153,141,217,${opacity})`;
   };
   return (
-    <DragDropContext
-      onDragEnd={onDragEnd}
-      onDragStart={onDragStart}
-      onDragUpdate={onDragUpdate}
-    >
-      <React.Fragment>{res}</React.Fragment>
-    </DragDropContext>
+    <Container>
+      <DragDropContext
+        onDragEnd={onDragEnd}
+        onDragStart={onDragStart}
+        onDragUpdate={onDragUpdate}
+      >
+        <React.Fragment>{res}</React.Fragment>
+      </DragDropContext>
+    </Container>
   );
 };
 

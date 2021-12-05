@@ -11,20 +11,16 @@ const Container = styled.div`
 
   display: flex;
 `;
-const Handle = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: orange;
-  border-radius: 2px;
-  margin-right: 8px;
-`;
 
 const Task = (props) => (
   <Draggable draggableId={props.task.id} index={props.index}>
     {(provided, snapshot) => (
-      <div ref={provided.innerRef} {...provided.draggableProps}>
+      <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+      >
         <Container isDragging={snapshot.isDragging}>
-          <Handle {...provided.dragHandleProps} />
           {props.task.content}
         </Container>
       </div>
