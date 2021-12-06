@@ -1,0 +1,1 @@
+export { getAllInfo } from "./getAllInfo";
