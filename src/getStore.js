@@ -12,6 +12,6 @@ export const getStore = () => {
   const enhancer = compose(...composables);
   const store = createStore(reducer, defaultState, enhancer);
   console.log("Saga middleware implemented!");
-  // initSagas(sagaMiddleware);
+  initSagas(sagaMiddleware);
   return store;
 };

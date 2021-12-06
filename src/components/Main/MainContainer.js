@@ -18,8 +18,9 @@ const Container = styled.div`
 `;
 
 export const MainContainer = (props) => {
-  const dispatch = useDispatch(getAllInfo());
+  const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getAllInfo());
     axios
       .get("https://tasks-2df6f-default-rtdb.firebaseio.com/state.json")
       .then((res) => {
