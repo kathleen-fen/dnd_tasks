@@ -1,1 +1,1 @@
-export { setColumns } from "./setColumns";
+export { columns } from "./columns";

@@ -1,7 +1,7 @@
-import { createReducer } from "./../utility";
+import { createReducer } from "../utility";
 import { fromJS } from "immutable";
 import { SET_COLUMNS } from "../actions";
-export const setColumns = createReducer(null, {
+export const columns = createReducer(null, {
   [SET_COLUMNS](state, { columns }) {
     return fromJS(columns);
   },

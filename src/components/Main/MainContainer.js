@@ -19,6 +19,8 @@ const Container = styled.div`
 
 export const MainContainer = (props) => {
   const dispatch = useDispatch();
+  const columns = useSelector(columnsSelector);
+  const columnOrder = useSelector(columnOrderSelector);
   useEffect(() => {
     dispatch(getAllInfo());
     axios
@@ -28,14 +30,15 @@ export const MainContainer = (props) => {
         setSt(res.data);
       });
   }, []);
-  const columns = useSelector(columnsSelector);
-  const columnOrder = useSelector(columnOrderSelector);
+  useEffect(() => {
+    console.log("columns: ", columns);
+  }, [columns]);
+
   //  const columnOrder = useSelector(columnOrderSelector());
   //console.log("columns: ", columns);
   const [st, setSt] = useState(initialData);
   const res = st.columnOrder.map((columnId, index) => {
     const column = st.columns[columnId];
-    console.log("column", column);
     let tasks = [];
     if (column.taskIds) {
       tasks = column.taskIds.map((taskId) => st.tasks[taskId]);
@@ -89,7 +92,6 @@ export const MainContainer = (props) => {
     const newStartColumn = { ...start, taskIds: startTaskIds };
 
     const finishTaskIds = finish.taskIds ? [...finish.taskIds] : [];
-    console.log("dra: ", draggableId);
     finishTaskIds.splice(destination.index, 0, draggableId);
     const newFinishColumn = { ...finish, taskIds: finishTaskIds };
 
@@ -101,7 +103,6 @@ export const MainContainer = (props) => {
         [newFinishColumn.id]: newFinishColumn,
       },
     };
-    console.log("newState: ", newState);
     setSt(newState);
   };
   const onDragStart = () => {};
@@ -112,7 +113,7 @@ export const MainContainer = (props) => {
       onDragStart={onDragStart}
       onDragUpdate={onDragUpdate}
     >
-      {columns ? "iuyiyiy" : "gjhgjg"}
+      {columns["column-1"] ? columns["column-1"].title : "false"}
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
