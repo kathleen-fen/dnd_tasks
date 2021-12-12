@@ -17,9 +17,9 @@ export function* allInfoSaga() {
   console.log("saga response columnOrder: ", columnOrder);
   console.log("saga response tasks: ", tasks);
 
+  yield put(setColumnOrder(columnOrder));
   yield put(setColumns(columns));
   yield put(setTasks(tasks));
-  yield put(setColumnOrder(columnOrder));
 
   //  const data = yield apply(response, response.json)
   //  yield put(setCurrentUser(data))

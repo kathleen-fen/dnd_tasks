@@ -1,8 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import Task from "./Task";
+import { columnTasksSelector, columnSelector } from "./../selectors";
 
 const Container = styled.div`
   margin: 8px;
@@ -21,17 +23,78 @@ const TaskList = styled.div`
 `;
 
 const Column = (props) => {
+  const column = useSelector(columnSelector(props.columnId));
+  const tasks = useSelector(columnTasksSelector(props.columnId));
+  /* if (!column) {
+    return (
+      <Draggable draggableId={column.id} index={props.index}>
+        {(provided) => (
+          <div {...provided.draggableProps} ref={provided.innerRef}>
+            <Container>
+              <Title {...provided.dragHandleProps}>{column.title}</Title>
+              <Droppable droppableId={column.id} type="task">
+                {(provided, snapshot) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <TaskList isDraggingOver={snapshot.isDraggingOver}>
+                      {tasks.map((task, index) => (
+                        <Task key={task.id} task={task} index={index} />
+                      ))}
+                      {provided.placeholder}
+                    </TaskList>
+                  </div>
+                )}
+              </Droppable>
+            </Container>
+          </div>
+        )}
+      </Draggable>
+    );
+  } else return null; */
   return (
-    <Draggable draggableId={props.column.id} index={props.index}>
+    <div>
+      <div>{props.columnId}</div>
+      <div>
+        {column ? (
+          <Draggable draggableId={column.id} index={props.index}>
+            {(provided) => (
+              <div {...provided.draggableProps} ref={provided.innerRef}>
+                <Container>
+                  <Title {...provided.dragHandleProps}>{column.title}</Title>
+                  <Droppable droppableId={column.id} type="task">
+                    {(provided, snapshot) => (
+                      <div ref={provided.innerRef} {...provided.droppableProps}>
+                        <TaskList isDraggingOver={snapshot.isDraggingOver}>
+                          {tasks.map((task, index) => {
+                            return task ? (
+                              <Task key={task.id} task={task} index={index} />
+                            ) : null;
+                          })}
+                          {provided.placeholder}
+                        </TaskList>
+                      </div>
+                    )}
+                  </Droppable>
+                </Container>
+              </div>
+            )}
+          </Draggable>
+        ) : (
+          "no column"
+        )}
+      </div>
+    </div>
+  );
+  /* return (
+    <Draggable draggableId={column.id} index={props.index}>
       {(provided) => (
         <div {...provided.draggableProps} ref={provided.innerRef}>
           <Container>
-            <Title {...provided.dragHandleProps}>{props.column.title}</Title>
-            <Droppable droppableId={props.column.id} type="task">
+            <Title {...provided.dragHandleProps}>{column.title}</Title>
+            <Droppable droppableId={column.id} type="task">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <TaskList isDraggingOver={snapshot.isDraggingOver}>
-                    {props.tasks.map((task, index) => (
+                    {tasks.map((task, index) => (
                       <Task key={task.id} task={task} index={index} />
                     ))}
                     {provided.placeholder}
@@ -43,7 +106,7 @@ const Column = (props) => {
         </div>
       )}
     </Draggable>
-  );
+  ); */
 };
 
 export default Column;

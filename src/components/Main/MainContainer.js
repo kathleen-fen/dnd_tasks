@@ -9,8 +9,13 @@ import styled from "styled-components";
 import { defaultState } from "../../defaultState";
 import initialData from "./../../initial-data";
 import Column from "../Column";
-import { columnOrderSelector, columnsSelector } from "./../../selectors";
-import { getAllInfo } from "./../../actions";
+import {
+  columnOrderSelector,
+  columnsSelector,
+  tasksSelector,
+  loadingSelector,
+} from "./../../selectors";
+import { getAllInfo, setLoading } from "./../../actions";
 
 const Container = styled.div`
   display: flex;
@@ -19,10 +24,13 @@ const Container = styled.div`
 
 export const MainContainer = (props) => {
   const dispatch = useDispatch();
-  const columns = useSelector(columnsSelector);
   const columnOrder = useSelector(columnOrderSelector);
+  const columns = useSelector(columnsSelector);
+  const tasks = useSelector(tasksSelector);
+  const loading = useSelector(loadingSelector);
   useEffect(() => {
     dispatch(getAllInfo());
+    dispatch(setLoading(true));
     axios
       .get("https://tasks-2df6f-default-rtdb.firebaseio.com/state.json")
       .then((res) => {
@@ -31,21 +39,22 @@ export const MainContainer = (props) => {
       });
   }, []);
   useEffect(() => {
+    console.log("columnOrder: ", columnOrder);
     console.log("columns: ", columns);
-  }, [columns]);
+    console.log("taks: ", tasks);
+  }, [columnOrder, tasks, columns]);
 
   //  const columnOrder = useSelector(columnOrderSelector());
   //console.log("columns: ", columns);
   const [st, setSt] = useState(initialData);
-  const res = st.columnOrder.map((columnId, index) => {
-    const column = st.columns[columnId];
-    let tasks = [];
+  const res = columnOrder.map((columnId, index) => {
+    //  const column = st.columns[columnId];
+    /*  let tasks = [];
     if (column.taskIds) {
       tasks = column.taskIds.map((taskId) => st.tasks[taskId]);
-    }
-    return (
-      <Column key={column.id} column={column} tasks={tasks} index={index} />
-    );
+    } */
+    return <Column key={columnId} index={index} columnId={columnId} />;
+    //return <div></div>;
   });
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
@@ -113,7 +122,10 @@ export const MainContainer = (props) => {
       onDragStart={onDragStart}
       onDragUpdate={onDragUpdate}
     >
+      {columnOrder.length ? columnOrder[0] : "false"}
       {columns["column-1"] ? columns["column-1"].title : "false"}
+      {tasks.task1 ? tasks.task1["content"] : "false"}
+      {"loading: " + loading}
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
