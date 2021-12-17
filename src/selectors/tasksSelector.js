@@ -9,7 +9,6 @@ export const columnTasksSelector = (id) => (state) => {
   const columns = columnsSelector(state);
   const column = columnSelector(id)(state);
   let tasks = [];
-  console.log("column from task selector: ", column);
   if (!column) return tasks;
   const tasksObj = tasksSelector(state);
 

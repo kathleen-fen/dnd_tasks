@@ -25,88 +25,38 @@ const TaskList = styled.div`
 const Column = (props) => {
   const column = useSelector(columnSelector(props.columnId));
   const tasks = useSelector(columnTasksSelector(props.columnId));
-  /* if (!column) {
-    return (
-      <Draggable draggableId={column.id} index={props.index}>
-        {(provided) => (
-          <div {...provided.draggableProps} ref={provided.innerRef}>
-            <Container>
-              <Title {...provided.dragHandleProps}>{column.title}</Title>
-              <Droppable droppableId={column.id} type="task">
-                {(provided, snapshot) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    <TaskList isDraggingOver={snapshot.isDraggingOver}>
-                      {tasks.map((task, index) => (
-                        <Task key={task.id} task={task} index={index} />
-                      ))}
-                      {provided.placeholder}
-                    </TaskList>
-                  </div>
-                )}
-              </Droppable>
-            </Container>
-          </div>
-        )}
-      </Draggable>
-    );
-  } else return null; */
+
   return (
     <div>
-      <div>{props.columnId}</div>
-      <div>
-        {column ? (
-          <Draggable draggableId={column.id} index={props.index}>
-            {(provided) => (
-              <div {...provided.draggableProps} ref={provided.innerRef}>
-                <Container>
-                  <Title {...provided.dragHandleProps}>{column.title}</Title>
-                  <Droppable droppableId={column.id} type="task">
-                    {(provided, snapshot) => (
-                      <div ref={provided.innerRef} {...provided.droppableProps}>
-                        <TaskList isDraggingOver={snapshot.isDraggingOver}>
-                          {tasks.map((task, index) => {
-                            return task ? (
-                              <Task key={task.id} task={task} index={index} />
-                            ) : null;
-                          })}
-                          {provided.placeholder}
-                        </TaskList>
-                      </div>
-                    )}
-                  </Droppable>
-                </Container>
-              </div>
-            )}
-          </Draggable>
-        ) : (
-          "no column"
-        )}
-      </div>
+      {column ? (
+        <Draggable draggableId={column.id} index={props.index}>
+          {(provided) => (
+            <div {...provided.draggableProps} ref={provided.innerRef}>
+              <Container>
+                <Title {...provided.dragHandleProps}>{column.title}</Title>
+                <Droppable droppableId={column.id} type="task">
+                  {(provided, snapshot) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      <TaskList isDraggingOver={snapshot.isDraggingOver}>
+                        {tasks.map((task, index) => {
+                          return task ? (
+                            <Task key={task.id} task={task} index={index} />
+                          ) : null;
+                        })}
+                        {provided.placeholder}
+                      </TaskList>
+                    </div>
+                  )}
+                </Droppable>
+              </Container>
+            </div>
+          )}
+        </Draggable>
+      ) : (
+        "no column"
+      )}
     </div>
   );
-  /* return (
-    <Draggable draggableId={column.id} index={props.index}>
-      {(provided) => (
-        <div {...provided.draggableProps} ref={provided.innerRef}>
-          <Container>
-            <Title {...provided.dragHandleProps}>{column.title}</Title>
-            <Droppable droppableId={column.id} type="task">
-              {(provided, snapshot) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <TaskList isDraggingOver={snapshot.isDraggingOver}>
-                    {tasks.map((task, index) => (
-                      <Task key={task.id} task={task} index={index} />
-                    ))}
-                    {provided.placeholder}
-                  </TaskList>
-                </div>
-              )}
-            </Droppable>
-          </Container>
-        </div>
-      )}
-    </Draggable>
-  ); */
 };
 
 export default Column;

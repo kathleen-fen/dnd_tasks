@@ -13,10 +13,6 @@ export function* allInfoSaga() {
     "https://tasks-2df6f-default-rtdb.firebaseio.com/state.json"
   );
   const { columns, columnOrder, tasks } = response.data;
-  console.log("saga response columns: ", columns);
-  console.log("saga response columnOrder: ", columnOrder);
-  console.log("saga response tasks: ", tasks);
-
   yield put(setColumnOrder(columnOrder));
   yield put(setColumns(columns));
   yield put(setTasks(tasks));

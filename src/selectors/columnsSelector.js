@@ -6,7 +6,6 @@ export const columnsSelector = createSelector(
 
 export const columnSelector = (id) => (state) => {
   const columns = columnsSelector(state);
-  console.log("colummns from selector: ", columns);
   if (columns[id]) {
     return columns[id];
   } else {
