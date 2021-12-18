@@ -6,22 +6,11 @@ import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 import Column from "../Column";
-import {
-  columnOrderSelector,
-  columnsSelector,
-  tasksSelector,
-  loadingSelector,
-} from "./../../selectors";
-import {
-  getAllInfo,
-  setLoading,
-  setColumnOrder,
-  setColumns,
-} from "./../../actions";
+import { columnOrderSelector, columnsSelector } from "./../../selectors";
+import { getAllInfo, updateColumnOrder, updateColumns } from "./../../actions";
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
 `;
 
 export const MainContainer = (props) => {
@@ -32,7 +21,7 @@ export const MainContainer = (props) => {
   //const loading = useSelector(loadingSelector);
   useEffect(() => {
     dispatch(getAllInfo());
-    dispatch(setLoading(true));
+    // dispatch(setLoading(true));
   }, [dispatch]);
 
   const res = columnOrder.map((columnId, index) => {
@@ -58,7 +47,7 @@ export const MainContainer = (props) => {
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
       //set state for column order
-      dispatch(setColumnOrder(newColumnOrder));
+      dispatch(updateColumnOrder(newColumnOrder));
 
       return;
     }
@@ -73,7 +62,7 @@ export const MainContainer = (props) => {
 
       const newColumn = { ...start, taskIds: newTaskIds };
 
-      dispatch(setColumns({ ...columns, [newColumn.id]: newColumn }));
+      dispatch(updateColumns({ ...columns, [newColumn.id]: newColumn }));
       return;
     }
     //moving from one list to another
@@ -86,7 +75,7 @@ export const MainContainer = (props) => {
     const newFinishColumn = { ...finish, taskIds: finishTaskIds };
 
     dispatch(
-      setColumns({
+      updateColumns({
         ...columns,
         [newStartColumn.id]: newStartColumn,
         [newFinishColumn.id]: newFinishColumn,

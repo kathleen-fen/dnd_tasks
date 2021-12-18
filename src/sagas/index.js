@@ -1,2 +1,3 @@
 export { allInfoSaga } from "./allInfoSaga";
-export { newOrderSaga } from "./newOrderSaga";
+export { columnOrderSaga } from "./columnOrderSaga";
+export { columnsSaga } from "./columnsSaga";
