@@ -7,7 +7,14 @@ import styled from "styled-components";
 
 import Column from "../Column";
 import { columnOrderSelector, columnsSelector } from "./../../selectors";
-import { getAllInfo, updateColumnOrder, updateColumns } from "./../../actions";
+import {
+  getAllInfo,
+  updateColumnOrder,
+  updateColumns,
+  setAddColumnMode,
+} from "./../../actions";
+import { AddColumn } from "../AddColumn/AddColumn";
+import { addColumnMode } from "../../reducers";
 
 const Container = styled.div`
   display: flex;
@@ -17,11 +24,8 @@ export const MainContainer = (props) => {
   const dispatch = useDispatch();
   const columnOrder = useSelector(columnOrderSelector);
   const columns = useSelector(columnsSelector);
-  //const tasks = useSelector(tasksSelector);
-  //const loading = useSelector(loadingSelector);
   useEffect(() => {
     dispatch(getAllInfo());
-    // dispatch(setLoading(true));
   }, [dispatch]);
 
   const res = columnOrder.map((columnId, index) => {
@@ -41,7 +45,6 @@ export const MainContainer = (props) => {
       return;
     }
     //todo: to set loading here
-    // dispatch(setNewOrder(result));
     if (type === "column") {
       const newColumnOrder = [...columnOrder];
       newColumnOrder.splice(source.index, 1);
@@ -85,21 +88,32 @@ export const MainContainer = (props) => {
   const onDragStart = () => {};
   const onDragUpdate = (update) => {};
   return (
-    <DragDropContext
-      onDragEnd={onDragEnd}
-      onDragStart={onDragStart}
-      onDragUpdate={onDragUpdate}
-    >
-      <Droppable droppableId="all-columns" direction="horizontal" type="column">
-        {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            <Container>
-              <React.Fragment>{res}</React.Fragment>
-            </Container>
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <React.Fragment>
+      <AddColumn />
+      <DragDropContext
+        onDragEnd={onDragEnd}
+        onDragStart={onDragStart}
+        onDragUpdate={onDragUpdate}
+      >
+        <Droppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="column"
+        >
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <Container>
+                <React.Fragment>{res}</React.Fragment>
+              </Container>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      <button onClick={() => dispatch(setAddColumnMode(true))}>
+        Add column
+      </button>{" "}
+      <button>Add task</button>
+    </React.Fragment>
   );
 };

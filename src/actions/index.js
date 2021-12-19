@@ -6,3 +6,5 @@ export { setLoading, SET_LOADING } from "./setLoading";
 export { setNewOrder, SET_NEW_ORDER } from "./setNewOrder";
 export { updateColumnOrder, UPDATE_COLUMN_ORDER } from "./updateColumnOrder";
 export { updateColumns, UPDATE_COLUMNS } from "./updateColumns";
+export { setAddColumnMode, SET_ADD_COLUMN_MODE } from "./setAddColumnMode";
+export { addColumn, ADD_COLUMN } from "./addColumn";
