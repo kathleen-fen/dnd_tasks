@@ -1,8 +1,8 @@
 import { takeEvery, put, select } from "redux-saga/effects";
-import axios from "axios";
 import { columnsSelector } from "./../selectors";
 
 import { UPDATE_COLUMNS, setColumns } from "../actions";
+import * as Api from "./../api";
 
 function* changeOrder(payload) {
   const { columns } = payload;
@@ -10,10 +10,7 @@ function* changeOrder(payload) {
   console.log("prev: ", prevCol);
   try {
     yield put(setColumns(columns));
-    const response = yield axios.put(
-      "https://tasks-2df6f-default-rtdb.firebaseio.com/state/columns.json",
-      columns
-    );
+    const response = yield Api.putColumns(columns);
   } catch (error) {
     console.log("error in put: ", error);
   }
