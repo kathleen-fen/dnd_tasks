@@ -7,9 +7,17 @@ export const getAllState = () => {
 };
 
 export const putColumnOrder = (columnOrder) => {
-  axios.put(`${Api_url}/state/columnOrder.json`, columnOrder);
+  return axios.put(`${Api_url}/state/columnOrder.json`, columnOrder);
 };
 
 export const putColumns = (columns) => {
-  axios.put(`${Api_url}/state/columns.json`, columns);
+  return axios.put(`${Api_url}/state/columns.json`, columns);
+};
+
+export const addColumn = (column) => {
+  return axios.post(`${Api_url}/state/columns.json`, column);
+};
+
+export const addColumnOrder = (columnOrder) => {
+  return axios.post(`${Api_url}/state/columnOrder.json`, columnOrder);
 };
