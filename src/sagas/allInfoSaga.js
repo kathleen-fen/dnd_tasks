@@ -14,6 +14,14 @@ export function* allInfoSaga() {
   const { columns, columnOrder, tasks } = response.data;
   Object.keys(columns).forEach((el) => {
     columns[el].id = el;
+    const taskIds = columns[el].taskIds;
+    const newTaskIds = [];
+    if (taskIds && !Array.isArray(taskIds)) {
+      Object.keys(taskIds).forEach((item) => {
+        newTaskIds.push(taskIds[item]);
+      });
+      columns[el].taskIds = newTaskIds;
+    }
   });
   Object.keys(tasks).forEach((el) => {
     tasks[el].id = el;

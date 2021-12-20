@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { useSelector, useDispatch } from "react-redux";
 import { addColumnModeSelector } from "../../selectors";
-import { setAddColumnMode, addColumn } from "./../../actions";
+import { setAddColumnMode, addColumn, addTask } from "./../../actions";
 
 export const AddColumn = () => {
   const addColumnMode = useSelector(addColumnModeSelector);
@@ -17,6 +17,10 @@ export const AddColumn = () => {
 
   const addColumnHandler = () => {
     dispatch(addColumn({ title }));
+  };
+
+  const addTaskHandler = () => {
+    dispatch(addTask({ content: title }));
   };
 
   return (

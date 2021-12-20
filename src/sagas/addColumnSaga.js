@@ -24,6 +24,4 @@ function* addColumn(payload) {
 
 export function* addColumnSaga() {
   yield takeEvery(ADD_COLUMN, addColumn);
-  // const res = yield take(ADD_COLUMN);
-  // console.log("saga res: ", res);
 }

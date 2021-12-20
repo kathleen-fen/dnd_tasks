@@ -14,7 +14,6 @@ import {
   setAddColumnMode,
 } from "./../../actions";
 import { AddColumn } from "../AddColumn/AddColumn";
-import { addColumnMode } from "../../reducers";
 
 const Container = styled.div`
   display: flex;
