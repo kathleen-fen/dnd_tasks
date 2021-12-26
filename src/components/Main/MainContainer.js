@@ -6,16 +6,16 @@ import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 import Column from "../Column";
-import { columnOrderSelector, columnsSelector } from "./../../selectors";
 import {
-  getAllInfo,
-  updateColumnOrder,
-  updateColumns,
-  setAddColumnMode,
-} from "./../../actions";
+  columnOrderSelector,
+  columnsSelector,
+  loadingSelector,
+} from "./../../selectors";
+import { getAllInfo, updateColumnOrder, updateColumns } from "./../../actions";
 import { AddColumn } from "../AddColumn/AddColumn";
 import { InitialColumnId } from "../../settings";
 import TaskStorage from "../TaskStorage";
+import { Loader } from "../Loader/Loader";
 
 const Container = styled.div`
   display: flex;
@@ -26,6 +26,7 @@ export const MainContainer = (props) => {
   const dispatch = useDispatch();
   const columnOrder = useSelector(columnOrderSelector);
   const columns = useSelector(columnsSelector);
+  const loading = useSelector(loadingSelector);
   useEffect(() => {
     dispatch(getAllInfo());
   }, [dispatch]);
@@ -93,6 +94,7 @@ export const MainContainer = (props) => {
   const onDragUpdate = (update) => {};
   return (
     <React.Fragment>
+      {loading ? <Loader /> : null}
       <AddColumn />
       <DragDropContext
         onDragEnd={onDragEnd}
@@ -117,10 +119,6 @@ export const MainContainer = (props) => {
           )}
         </Droppable>
       </DragDropContext>
-      <button onClick={() => dispatch(setAddColumnMode(true))}>
-        Add column
-      </button>{" "}
-      <button>Add task</button>
     </React.Fragment>
   );
 };

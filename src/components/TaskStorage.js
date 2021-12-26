@@ -1,11 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
+import { setAddMode } from "./../actions";
 
 import Task from "./Task";
 import { columnTasksSelector, columnSelector } from "./../selectors";
-import { InitialColumnId } from "../settings";
 const ContainerWrapper = styled.div`
   width: 100%;
 `;
@@ -30,6 +30,7 @@ const TaskList = styled.div`
 const TaskStorage = (props) => {
   const column = useSelector(columnSelector(props.columnId));
   const tasks = useSelector(columnTasksSelector(props.columnId));
+  const dispatch = useDispatch();
 
   return (
     <ContainerWrapper>
@@ -47,6 +48,9 @@ const TaskStorage = (props) => {
                   })}
                   {provided.placeholder}
                 </TaskList>
+                <button onClick={() => dispatch(setAddMode(true))}>
+                  Add new
+                </button>
               </div>
             )}
           </Droppable>

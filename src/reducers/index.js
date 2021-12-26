@@ -1,4 +1,5 @@
 export { columns } from "./columns";
 export { columnOrder } from "./columnOrder";
 export { tasks } from "./tasks";
-export { addColumnMode } from "./addColumnMode";
+export { addMode } from "./addMode";
+export { loading } from "./loading";

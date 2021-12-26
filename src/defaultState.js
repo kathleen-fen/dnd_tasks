@@ -4,6 +4,6 @@ export const defaultState = fromJS({
   tasks: {},
   columns: {},
   columnOrder: [],
-  loading: false,
+  loading: true,
   addColumnMode: false,
 });
