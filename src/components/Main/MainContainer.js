@@ -14,9 +14,12 @@ import {
   setAddColumnMode,
 } from "./../../actions";
 import { AddColumn } from "../AddColumn/AddColumn";
+import { InitialColumnId } from "../../settings";
+import TaskStorage from "../TaskStorage";
 
 const Container = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const MainContainer = (props) => {
@@ -28,7 +31,9 @@ export const MainContainer = (props) => {
   }, [dispatch]);
 
   const res = columnOrder.map((columnId, index) => {
-    return <Column key={columnId} index={index} columnId={columnId} />;
+    return columnId !== InitialColumnId ? (
+      <Column key={columnId} index={index} columnId={columnId} />
+    ) : null;
   });
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
@@ -102,7 +107,10 @@ export const MainContainer = (props) => {
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <Container>
-                <React.Fragment>{res}</React.Fragment>
+                <React.Fragment>
+                  <TaskStorage columnId={InitialColumnId} />
+                  {res}
+                </React.Fragment>
               </Container>
               {provided.placeholder}
             </div>
