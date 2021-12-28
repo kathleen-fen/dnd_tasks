@@ -15,7 +15,6 @@ function* addTask(payload) {
     const tasks = yield select(tasksSelector);
     const newTasks = { ...tasks, [data.name]: task };
     const columns = yield select(columnsSelector);
-    console.log("InitialId: ", InitialColumnId);
 
     const newColumns = {
       ...columns,

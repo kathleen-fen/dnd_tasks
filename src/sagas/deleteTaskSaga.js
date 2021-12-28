@@ -1,18 +1,33 @@
 import { takeEvery, put, select } from "redux-saga/effects";
 
-import { DELETE_TASK } from "../actions";
+import { DELETE_TASK, setLoading, setColumns } from "../actions";
+import { columnsSelector } from "./../selectors";
 import * as Api from "./../api";
 
 function* deleteTask(payload) {
   try {
-    console.log("delete payload: ", payload);
+    yield put(setLoading(true));
     const { columnId, taskIndex, taskId } = payload.task;
     yield Api.deleteTaskFromColumn(columnId, taskIndex);
     yield Api.deleteTaskFromTasks(taskId);
-    console.log("delete payload: ", payload);
+    //delete from state
+    const columns = yield select(columnsSelector);
+    const newTaskIds = [...columns[columnId].taskIds];
+    newTaskIds.splice(taskIndex, 1);
+    yield put(
+      setColumns({
+        ...columns,
+        [columnId]: {
+          ...columns[columnId],
+          taskIds: newTaskIds,
+        },
+      })
+    );
+    console.log("column: ", columns);
   } catch (error) {
     console.log("error in put: ", error);
   }
+  yield put(setLoading(false));
 }
 
 export function* deleteTaskSaga() {
