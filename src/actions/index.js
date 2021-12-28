@@ -10,3 +10,4 @@ export { setAddMode, SET_ADD_MODE } from "./setAddMode";
 export { addColumn, ADD_COLUMN } from "./addColumn";
 export { addTask, ADD_TASK } from "./addTask";
 export { addMode, ADD_MODE } from "./addMode";
+export { deleteTask, DELETE_TASK } from "./deleteTask";

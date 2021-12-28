@@ -14,7 +14,8 @@ export function* allInfoSaga() {
   yield put(setLoading(true));
   try {
     const response = yield Api.getAllState();
-    const { columns, columnOrder, tasks } = response.data;
+    let { columns, columnOrder, tasks } = response.data;
+    console.log("tasks: ", tasks);
     Object.keys(columns).forEach((el) => {
       columns[el].id = el;
       const taskIds = columns[el].taskIds;
@@ -26,9 +27,11 @@ export function* allInfoSaga() {
         columns[el].taskIds = newTaskIds;
       }
     });
-    Object.keys(tasks).forEach((el) => {
-      tasks[el].id = el;
-    });
+    tasks
+      ? Object.keys(tasks).forEach((el) => {
+          tasks[el].id = el;
+        })
+      : (tasks = {});
     const newColumnOrder = [];
     Object.keys(columnOrder).forEach((el) => {
       newColumnOrder.push(columnOrder[el]);

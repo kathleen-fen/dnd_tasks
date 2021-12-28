@@ -43,7 +43,12 @@ const TaskStorage = (props) => {
                 <TaskList isDraggingOver={snapshot.isDraggingOver}>
                   {tasks.map((task, index) => {
                     return task ? (
-                      <Task key={task.id} task={task} index={index} />
+                      <Task
+                        key={task.id}
+                        task={task}
+                        index={index}
+                        columnId={props.columnId}
+                      />
                     ) : null;
                   })}
                   {provided.placeholder}

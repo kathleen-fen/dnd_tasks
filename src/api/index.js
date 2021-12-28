@@ -31,6 +31,20 @@ export const addTaskIdToColumn = (taskId) => {
 };
 
 export const addColumnOrder = (columnOrder) => {
-  console.log("json: ", `"${columnOrder}"`);
   return axios.post(`${Api_url}/state/columnOrder.json`, `"${columnOrder}"`);
+};
+
+export const deleteTaskFromColumn = (columnId, taskIndex) => {
+  console.log(
+    "url1: ",
+    `${Api_url}/state/columns/${columnId}/taskIds/${taskIndex}.json`
+  );
+  return axios.delete(
+    `${Api_url}/state/columns/${columnId}/taskIds/${taskIndex}.json`
+  );
+};
+
+export const deleteTaskFromTasks = (taskId) => {
+  console.log("url2: ", `${Api_url}/state/tasks/${taskId}.json`);
+  return axios.delete(`${Api_url}/state/tasks/${taskId}.json`);
 };

@@ -1,11 +1,12 @@
-import { takeEvery, take, put, select } from "redux-saga/effects";
+import { takeEvery, put, select } from "redux-saga/effects";
 
-import { ADD_COLUMN, setColumnOrder, setColumns } from "../actions";
+import { ADD_COLUMN, setColumnOrder, setColumns, setLoading } from "../actions";
 import { columnsSelector, columnOrderSelector } from "../selectors";
 import * as Api from "./../api";
 
 function* addColumn(payload) {
   try {
+    yield put(setLoading(true));
     const { newColumn } = payload;
     const { data } = yield Api.addColumn(newColumn);
     yield Api.addColumnOrder(data.name);
@@ -17,6 +18,7 @@ function* addColumn(payload) {
     const newColumnOrder = [...columnOrder, data.name];
     yield put(setColumns(newColumns));
     yield put(setColumnOrder(newColumnOrder));
+    yield put(setLoading(false));
   } catch (error) {
     console.log("error in put: ", error);
   }

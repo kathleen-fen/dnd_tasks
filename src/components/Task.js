@@ -1,6 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
+
+import { Icon } from "./Icon";
+import TrashIcon from "./../images/trash-alt-solid.svg";
+import PenIcon from "./../images/pen-solid.svg";
+import { deleteTask } from "./../actions";
 
 const Container = styled.div`
   padding: 8px;
@@ -10,22 +16,45 @@ const Container = styled.div`
   background-color: ${(props) => (props.isDragging ? "lightgreen" : "white")};
 
   display: flex;
+  justify-content: space-between;
+`;
+const Icons = styled.div`
+  display: flex;
 `;
 
-const Task = (props) => (
-  <Draggable draggableId={props.task.id} index={props.index}>
-    {(provided, snapshot) => (
-      <div
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-      >
-        <Container isDragging={snapshot.isDragging}>
-          {props.task.content}
-        </Container>
-      </div>
-    )}
-  </Draggable>
-);
+const Task = (props) => {
+  const dispatch = useDispatch();
+  const deleteTaskHandler = () => {
+    console.log("id: ", props.task.id);
+    console.log("index: ", props.index);
+    dispatch(
+      deleteTask({
+        columnId: props.columnId,
+        taskId: props.task.id,
+        taskIndex: props.index,
+      })
+    );
+  };
+
+  return (
+    <Draggable draggableId={props.task.id} index={props.index}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <Container isDragging={snapshot.isDragging}>
+            <div>{props.task.content}</div>
+            <Icons>
+              <Icon img={PenIcon} />
+              <Icon img={TrashIcon} onClick={deleteTaskHandler} />
+            </Icons>
+          </Container>
+        </div>
+      )}
+    </Draggable>
+  );
+};
 
 export default Task;

@@ -1,12 +1,13 @@
 import { takeEvery, put, select } from "redux-saga/effects";
 
-import { ADD_TASK, setTasks, setColumns } from "../actions";
+import { ADD_TASK, setTasks, setColumns, setLoading } from "../actions";
 import { tasksSelector, columnsSelector } from "../selectors";
 import * as Api from "./../api";
 import { InitialColumnId } from "./../settings";
 
 function* addTask(payload) {
   try {
+    yield put(setLoading(true));
     const { newTask } = payload;
     const { data } = yield Api.addTask(newTask);
     yield Api.addTaskIdToColumn(data.name);
@@ -20,12 +21,15 @@ function* addTask(payload) {
       ...columns,
       [InitialColumnId]: {
         ...columns[InitialColumnId],
-        taskIds: [...columns[InitialColumnId].taskIds, data.name],
+        taskIds: columns[InitialColumnId].taskIds
+          ? [...columns[InitialColumnId].taskIds, data.name]
+          : [data.name],
       },
     };
 
     yield put(setTasks(newTasks));
     yield put(setColumns(newColumns));
+    yield put(setLoading(false));
   } catch (error) {
     console.log("error in put: ", error);
   }
