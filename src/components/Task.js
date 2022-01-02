@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
@@ -6,7 +6,8 @@ import { useDispatch } from "react-redux";
 import { Icon } from "./Icon";
 import TrashIcon from "./../images/trash-alt-solid.svg";
 import PenIcon from "./../images/pen-solid.svg";
-import { deleteTask } from "./../actions";
+import { deleteTask, editTask } from "./../actions";
+import { Input } from "./Input";
 
 const Container = styled.div`
   padding: 8px;
@@ -23,10 +24,10 @@ const Icons = styled.div`
 `;
 
 const Task = (props) => {
+  const [editMode, setEditMode] = useState(false);
+  const [newName, setNewName] = useState("");
   const dispatch = useDispatch();
   const deleteTaskHandler = () => {
-    console.log("id: ", props.task.id);
-    console.log("index: ", props.index);
     dispatch(
       deleteTask({
         columnId: props.columnId,
@@ -34,6 +35,29 @@ const Task = (props) => {
         taskIndex: props.index,
       })
     );
+  };
+  const changeContentHandler = (e) => {
+    setNewName(e.target.value);
+  };
+  const onBlurHandler = (e) => {
+    setEditMode(false);
+    //change task name
+    dispatch(editTask({ id: props.task.id, content: newName }));
+  };
+  const onKeyDownHandler = (e) => {
+    switch (e.code) {
+      case "Escape":
+        setEditMode(false);
+        setNewName(props.task.content);
+        break;
+      case "Enter":
+        //change task name
+        setEditMode(false);
+        dispatch(editTask({ id: props.task.id, content: newName }));
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -45,11 +69,29 @@ const Task = (props) => {
           {...provided.dragHandleProps}
         >
           <Container isDragging={snapshot.isDragging}>
-            <div>{props.task.content}</div>
-            <Icons>
-              <Icon img={PenIcon} />
-              <Icon img={TrashIcon} onClick={deleteTaskHandler} />
-            </Icons>
+            {editMode ? (
+              <Input
+                type="text"
+                value={newName}
+                onChange={changeContentHandler}
+                onBlur={onBlurHandler}
+                onKeyDown={onKeyDownHandler}
+              />
+            ) : (
+              <React.Fragment>
+                <div>{props.task.content}</div>
+                <Icons>
+                  <Icon
+                    img={PenIcon}
+                    onClick={() => {
+                      setNewName(props.task.content);
+                      setEditMode(true);
+                    }}
+                  />
+                  <Icon img={TrashIcon} onClick={deleteTaskHandler} />
+                </Icons>
+              </React.Fragment>
+            )}
           </Container>
         </div>
       )}

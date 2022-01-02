@@ -35,16 +35,29 @@ export const addColumnOrder = (columnOrder) => {
 };
 
 export const deleteTaskFromColumn = (columnId, taskIndex) => {
-  console.log(
-    "url1: ",
-    `${Api_url}/state/columns/${columnId}/taskIds/${taskIndex}.json`
-  );
   return axios.delete(
     `${Api_url}/state/columns/${columnId}/taskIds/${taskIndex}.json`
   );
 };
 
 export const deleteTaskFromTasks = (taskId) => {
-  console.log("url2: ", `${Api_url}/state/tasks/${taskId}.json`);
   return axios.delete(`${Api_url}/state/tasks/${taskId}.json`);
+};
+
+export const editTask = (taskId, newTask) => {
+  console.log("url2: ", `${Api_url}/state/tasks/${taskId}/.json`);
+  return axios.patch(`${Api_url}/state/tasks/${taskId}/.json`, {
+    content: newTask,
+  });
+};
+
+export const deleteColumnFromColumns = (columnId) => {
+  return axios.delete(`${Api_url}/state/columns/${columnId}.json`);
+};
+
+export const editColumnTaskIds = (columnId, taskIds) => {
+  console.log("url2: ", `${Api_url}/state/columns/${columnId}/taskIds/.json`);
+  return axios.patch(`${Api_url}/state/columns/${columnId}/.json`, {
+    taskIds: taskIds,
+  });
 };

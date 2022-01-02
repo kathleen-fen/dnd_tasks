@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -8,6 +8,7 @@ import { columnTasksSelector, columnSelector } from "./../selectors";
 import { Icon } from "./Icon";
 import TrashIcon from "./../images/trash-alt-solid.svg";
 import PenIcon from "./../images/pen-solid.svg";
+import { deleteColumn } from "./../actions";
 
 const Container = styled.div`
   margin: 8px;
@@ -41,6 +42,13 @@ const Icons = styled.div`
 const Column = (props) => {
   const column = useSelector(columnSelector(props.columnId));
   const tasks = useSelector(columnTasksSelector(props.columnId));
+  const dispatch = useDispatch();
+
+  const deleteColumnHandler = () => {
+    dispatch(deleteColumn({ columnId: column.id }));
+  };
+
+  const editColumnHandler = () => {};
 
   return (
     <div>
@@ -52,8 +60,8 @@ const Column = (props) => {
                 <TitleContainer {...provided.dragHandleProps}>
                   <Title>{column.title}</Title>
                   <Icons>
-                    <Icon img={PenIcon} />
-                    <Icon img={TrashIcon} />
+                    <Icon img={PenIcon} onClick={editColumnHandler} />
+                    <Icon img={TrashIcon} onClick={deleteColumnHandler} />
                   </Icons>
                 </TitleContainer>
                 <Droppable droppableId={column.id} type="task">

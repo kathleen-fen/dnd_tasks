@@ -22,7 +22,6 @@ const TaskList = styled.div`
   padding: 8px;
   background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
   flex-grow: 1;
-  min-height: 100px;
   display: flex;
   flex-wrap: wrap;
 `;

@@ -8,6 +8,7 @@ function* deleteTask(payload) {
   try {
     yield put(setLoading(true));
     const { columnId, taskIndex, taskId } = payload.task;
+    //delete from database
     yield Api.deleteTaskFromColumn(columnId, taskIndex);
     yield Api.deleteTaskFromTasks(taskId);
     //delete from state
@@ -23,7 +24,6 @@ function* deleteTask(payload) {
         },
       })
     );
-    console.log("column: ", columns);
   } catch (error) {
     console.log("error in put: ", error);
   }
