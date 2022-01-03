@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Droppable, Draggable } from "react-beautiful-dnd";
@@ -8,7 +8,8 @@ import { columnTasksSelector, columnSelector } from "./../selectors";
 import { Icon } from "./Icon";
 import TrashIcon from "./../images/trash-alt-solid.svg";
 import PenIcon from "./../images/pen-solid.svg";
-import { deleteColumn } from "./../actions";
+import { deleteColumn, editColumn } from "./../actions";
+import { Input } from "./Input";
 
 const Container = styled.div`
   margin: 8px;
@@ -40,6 +41,8 @@ const Icons = styled.div`
 `;
 
 const Column = (props) => {
+  const [editMode, setEditMode] = useState(false);
+  const [newName, setNewName] = useState("");
   const column = useSelector(columnSelector(props.columnId));
   const tasks = useSelector(columnTasksSelector(props.columnId));
   const dispatch = useDispatch();
@@ -48,7 +51,29 @@ const Column = (props) => {
     dispatch(deleteColumn({ columnId: column.id }));
   };
 
-  const editColumnHandler = () => {};
+  const changeTitleHandler = (e) => {
+    setNewName(e.target.value);
+  };
+  const onBlurHandler = (e) => {
+    setEditMode(false);
+    //change column name
+    dispatch(editColumn({ columnId: column.id, columnTitle: newName }));
+  };
+  const onKeyDownHandler = (e) => {
+    switch (e.code) {
+      case "Escape":
+        setEditMode(false);
+        setNewName(column.title);
+        break;
+      case "Enter":
+        //change column name
+        setEditMode(false);
+        dispatch(editColumn({ columnId: column.id, columnTitle: newName }));
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div>
@@ -58,12 +83,31 @@ const Column = (props) => {
             <div {...provided.draggableProps} ref={provided.innerRef}>
               <Container>
                 <TitleContainer {...provided.dragHandleProps}>
-                  <Title>{column.title}</Title>
-                  <Icons>
-                    <Icon img={PenIcon} onClick={editColumnHandler} />
-                    <Icon img={TrashIcon} onClick={deleteColumnHandler} />
-                  </Icons>
+                  {editMode ? (
+                    <Input
+                      type="text"
+                      value={newName}
+                      onChange={changeTitleHandler}
+                      onBlur={onBlurHandler}
+                      onKeyDown={onKeyDownHandler}
+                    />
+                  ) : (
+                    <React.Fragment>
+                      <Title>{column.title}</Title>
+                      <Icons>
+                        <Icon
+                          img={PenIcon}
+                          onClick={() => {
+                            setNewName(column.title);
+                            setEditMode(true);
+                          }}
+                        />
+                        <Icon img={TrashIcon} onClick={deleteColumnHandler} />
+                      </Icons>
+                    </React.Fragment>
+                  )}{" "}
                 </TitleContainer>
+
                 <Droppable droppableId={column.id} type="task">
                   {(provided, snapshot) => (
                     <div ref={provided.innerRef} {...provided.droppableProps}>

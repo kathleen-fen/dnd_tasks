@@ -6,3 +6,4 @@ export { addTaskSaga } from "./addTaskSaga";
 export { deleteTaskSaga } from "./deleteTaskSaga";
 export { editTaskSaga } from "./editTaskSaga";
 export { deleteColumnSaga } from "./deleteColumnSaga";
+export { editColumnSaga } from "./editColumnSaga";

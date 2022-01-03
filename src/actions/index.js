@@ -13,3 +13,4 @@ export { addMode, ADD_MODE } from "./addMode";
 export { deleteTask, DELETE_TASK } from "./deleteTask";
 export { deleteColumn, DELETE_COLUMN } from "./deleteColumn";
 export { editTask, EDIT_TASK } from "./editTask";
+export { editColumn, EDIT_COLUMN } from "./editColumn";

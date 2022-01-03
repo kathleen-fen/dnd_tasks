@@ -45,7 +45,6 @@ export const deleteTaskFromTasks = (taskId) => {
 };
 
 export const editTask = (taskId, newTask) => {
-  console.log("url2: ", `${Api_url}/state/tasks/${taskId}/.json`);
   return axios.patch(`${Api_url}/state/tasks/${taskId}/.json`, {
     content: newTask,
   });
@@ -56,8 +55,13 @@ export const deleteColumnFromColumns = (columnId) => {
 };
 
 export const editColumnTaskIds = (columnId, taskIds) => {
-  console.log("url2: ", `${Api_url}/state/columns/${columnId}/taskIds/.json`);
   return axios.patch(`${Api_url}/state/columns/${columnId}/.json`, {
     taskIds: taskIds,
+  });
+};
+
+export const editColumn = (columnId, columnTitle) => {
+  return axios.patch(`${Api_url}/state/columns/${columnId}/.json`, {
+    title: columnTitle,
   });
 };
