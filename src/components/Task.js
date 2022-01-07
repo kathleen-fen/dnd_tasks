@@ -6,8 +6,10 @@ import { useDispatch } from "react-redux";
 import { Icon } from "./Icon";
 import TrashIcon from "./../images/trash-alt-solid.svg";
 import PenIcon from "./../images/pen-solid.svg";
+import CheckIcon from "./../images/check-solid.svg";
+import CrossIcon from "./../images/times-solid.svg";
 import { deleteTask, editTask } from "./../actions";
-import { Input } from "./Input";
+import { TextArea } from "./TextArea";
 
 const Container = styled.div`
   padding: 8px;
@@ -15,7 +17,7 @@ const Container = styled.div`
   border-radius: 2px;
   margin-bottom: 8px;
   background-color: ${(props) => (props.isDragging ? "lightgreen" : "white")};
-
+  line-height: 1.5;
   display: flex;
   justify-content: space-between;
 `;
@@ -42,7 +44,12 @@ const Task = (props) => {
   const onBlurHandler = (e) => {
     setEditMode(false);
     //change task name
-    dispatch(editTask({ id: props.task.id, content: newName }));
+    dispatch(
+      editTask({
+        id: props.task.id,
+        content: newName.replace(/\r?\n|\r/g, "<br>"),
+      })
+    );
   };
   const onKeyDownHandler = (e) => {
     switch (e.code) {
@@ -50,11 +57,11 @@ const Task = (props) => {
         setEditMode(false);
         setNewName(props.task.content);
         break;
-      case "Enter":
+      /*  case "Enter":
         //change task name
         setEditMode(false);
         dispatch(editTask({ id: props.task.id, content: newName }));
-        break;
+        break; */
       default:
         break;
     }
@@ -70,21 +77,37 @@ const Task = (props) => {
         >
           <Container isDragging={snapshot.isDragging}>
             {editMode ? (
-              <Input
-                type="text"
-                value={newName}
-                onChange={changeContentHandler}
-                onBlur={onBlurHandler}
-                onKeyDown={onKeyDownHandler}
-              />
+              <React.Fragment>
+                <TextArea
+                  type="text"
+                  value={newName}
+                  onChange={changeContentHandler}
+                  onBlur={onBlurHandler}
+                  onKeyDown={onKeyDownHandler}
+                />
+                <Icons>
+                  <Icon img={CheckIcon} onClick={onBlurHandler} />
+                  <Icon
+                    img={CrossIcon}
+                    onClick={() => {
+                      setEditMode(false);
+                      setNewName(props.task.content);
+                    }}
+                  />
+                </Icons>
+              </React.Fragment>
             ) : (
               <React.Fragment>
-                <div>{props.task.content}</div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: props.task.content }}
+                ></div>
                 <Icons>
                   <Icon
                     img={PenIcon}
                     onClick={() => {
-                      setNewName(props.task.content);
+                      setNewName(
+                        props.task.content.replace(/<br\s*[\/]?>/gi, "\n")
+                      );
                       setEditMode(true);
                     }}
                   />

@@ -10,10 +10,11 @@ function* addTask(payload) {
     yield put(setLoading(true));
     const { newTask } = payload;
     const { data } = yield Api.addTask(newTask);
-    yield Api.addTaskIdToColumn(data.name);
+    //  yield Api.addTaskIdToColumn(data.name);
     const task = { id: data.name, ...newTask };
     const tasks = yield select(tasksSelector);
     const newTasks = { ...tasks, [data.name]: task };
+
     const columns = yield select(columnsSelector);
 
     const newColumns = {
@@ -25,6 +26,12 @@ function* addTask(payload) {
           : [data.name],
       },
     };
+    yield Api.putTaskIds(
+      InitialColumnId,
+      columns[InitialColumnId].taskIds
+        ? [...columns[InitialColumnId].taskIds, data.name]
+        : [data.name]
+    );
 
     yield put(setTasks(newTasks));
     yield put(setColumns(newColumns));

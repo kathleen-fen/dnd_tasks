@@ -21,7 +21,8 @@ export const AddColumn = () => {
   };
 
   const addTaskHandler = () => {
-    dispatch(addTask({ content: title }));
+    dispatch(addTask({ content: title.replace(/\r?\n|\r/g, "<br>") }));
+    console.log("rep: ", title.replace(/\r?\n|\r/g, "<br>"));
   };
 
   const onChangeAddModeType = (e) => {
@@ -62,15 +63,27 @@ export const AddColumn = () => {
           />{" "}
           Add column
         </div>
-        <label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          ></input>
-        </label>
+        {addModeType === "Column" ? (
+          <label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            ></input>
+          </label>
+        ) : (
+          <label>
+            <textarea
+              type="text"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            ></textarea>
+          </label>
+        )}
         <button onClick={addHandler}>Add</button>
         <button onClick={cancelHandler}>Cancel</button>
       </form>

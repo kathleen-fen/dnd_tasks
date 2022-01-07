@@ -15,6 +15,13 @@ export const putColumns = (columns) => {
   return axios.put(`${Api_url}/state/columns.json`, columns);
 };
 
+export const putTaskIds = (columnId, taskIds) => {
+  return axios.put(
+    `${Api_url}/state/columns/${columnId}/taskIds.json`,
+    taskIds
+  );
+};
+
 export const addColumn = (column) => {
   return axios.post(`${Api_url}/state/columns.json`, column);
 };
