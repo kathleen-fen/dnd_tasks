@@ -1,4 +1,4 @@
-import { take, put } from "redux-saga/effects";
+import { take, put, call } from "redux-saga/effects";
 
 import * as Api from "./../api";
 import {
@@ -13,9 +13,8 @@ export function* allInfoSaga() {
   yield take(GET_ALL_INFO);
   yield put(setLoading(true));
   try {
-    const response = yield Api.getAllState();
+    const response = yield call(Api.getAllState);
     let { columns, columnOrder, tasks } = response.data;
-    console.log("tasks: ", tasks);
     Object.keys(columns).forEach((el) => {
       columns[el].id = el;
       const taskIds = columns[el].taskIds;
@@ -36,7 +35,6 @@ export function* allInfoSaga() {
     Object.keys(columnOrder).forEach((el) => {
       newColumnOrder.push(columnOrder[el]);
     });
-    console.log("columns: ", columns);
     yield put(setColumnOrder(newColumnOrder));
     yield put(setColumns(columns));
     yield put(setTasks(tasks));

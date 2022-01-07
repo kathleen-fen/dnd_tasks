@@ -1,4 +1,4 @@
-import { takeEvery, put, select } from "redux-saga/effects";
+import { takeEvery, put, select, call } from "redux-saga/effects";
 
 import { ADD_COLUMN, setColumnOrder, setColumns, setLoading } from "../actions";
 import { columnsSelector, columnOrderSelector } from "../selectors";
@@ -9,8 +9,7 @@ function* addColumn(payload) {
     yield put(setLoading(true));
     const { newColumn } = payload;
     const { data } = yield Api.addColumn(newColumn);
-    yield Api.addColumnOrder(data.name);
-    console.log("saga res: ", data.name);
+    yield call(Api.addColumnOrder, data.name);
     const column = { id: data.name, ...newColumn };
     const columns = yield select(columnsSelector);
     const columnOrder = yield select(columnOrderSelector);

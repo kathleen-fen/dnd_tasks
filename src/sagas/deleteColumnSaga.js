@@ -1,4 +1,4 @@
-import { takeEvery, put, select } from "redux-saga/effects";
+import { takeEvery, put, select, call } from "redux-saga/effects";
 
 import {
   DELETE_COLUMN,
@@ -21,9 +21,6 @@ function* deleteColumn(payload) {
     const column = yield select(columnSelector(columnId));
     const storageColumn = yield select(columnSelector(InitialColumnId));
     const columnOrder = yield select(columnOrderSelector);
-    console.log("column: ", column);
-    console.log("storageColumn: ", storageColumn);
-    console.log("columnOrder: ", columnOrder);
     const storageTaskIds = storageColumn.taskIds
       ? [...storageColumn.taskIds]
       : [];
@@ -33,18 +30,16 @@ function* deleteColumn(payload) {
       taskIds: [...storageTaskIds, ...columnTaskIds],
     };
     const newColumnOrder = columnOrder.filter((el) => el !== columnId);
-    console.log("newStorageColumn: ", newStorageColumn);
-    console.log("newColumnOrder: ", newColumnOrder);
 
     //delete from columnOrder
-    yield Api.putColumnOrder(newColumnOrder);
+    yield call(Api.putColumnOrder, newColumnOrder);
     //edit storage column
-    yield Api.editColumnTaskIds(InitialColumnId, [
+    yield call(Api.editColumnTaskIds, InitialColumnId, [
       ...storageTaskIds,
       ...columnTaskIds,
     ]);
     //delete column
-    yield Api.deleteColumnFromColumns(columnId);
+    yield call(Api.deleteColumnFromColumns, columnId);
 
     //delete from state
     const columns = yield select(columnsSelector);

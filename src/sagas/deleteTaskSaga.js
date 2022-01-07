@@ -1,4 +1,4 @@
-import { takeEvery, put, select } from "redux-saga/effects";
+import { takeEvery, put, select, call } from "redux-saga/effects";
 
 import { DELETE_TASK, setLoading, setColumns } from "../actions";
 import { columnsSelector } from "./../selectors";
@@ -9,8 +9,8 @@ function* deleteTask(payload) {
     yield put(setLoading(true));
     const { columnId, taskIndex, taskId } = payload.task;
     //delete from database
-    yield Api.deleteTaskFromColumn(columnId, taskIndex);
-    yield Api.deleteTaskFromTasks(taskId);
+    yield call(Api.deleteTaskFromColumn, columnId, taskIndex);
+    yield call(Api.deleteTaskFromTasks, taskId);
     //delete from state
     const columns = yield select(columnsSelector);
     const newTaskIds = [...columns[columnId].taskIds];

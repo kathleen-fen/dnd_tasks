@@ -1,4 +1,4 @@
-import { takeEvery, put, select } from "redux-saga/effects";
+import { takeEvery, put, select, call } from "redux-saga/effects";
 
 import { ADD_TASK, setTasks, setColumns, setLoading } from "../actions";
 import { tasksSelector, columnsSelector } from "../selectors";
@@ -9,8 +9,7 @@ function* addTask(payload) {
   try {
     yield put(setLoading(true));
     const { newTask } = payload;
-    const { data } = yield Api.addTask(newTask);
-    //  yield Api.addTaskIdToColumn(data.name);
+    const { data } = yield call(Api.addTask, newTask);
     const task = { id: data.name, ...newTask };
     const tasks = yield select(tasksSelector);
     const newTasks = { ...tasks, [data.name]: task };
@@ -26,7 +25,8 @@ function* addTask(payload) {
           : [data.name],
       },
     };
-    yield Api.putTaskIds(
+    yield call(
+      Api.putTaskIds,
       InitialColumnId,
       columns[InitialColumnId].taskIds
         ? [...columns[InitialColumnId].taskIds, data.name]
