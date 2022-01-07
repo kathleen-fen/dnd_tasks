@@ -1,12 +1,11 @@
 import { createSelector } from "reselect";
-import { columnSelector, columnsSelector } from "./index";
+import { columnSelector } from "./index";
 export const tasksSelector = createSelector(
   (state) => state.get(`tasks`).toJS(),
   (tasks) => tasks
 );
 
 export const columnTasksSelector = (id) => (state) => {
-  const columns = columnsSelector(state);
   const column = columnSelector(id)(state);
   let tasks = [];
   if (!column) return tasks;

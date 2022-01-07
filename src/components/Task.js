@@ -106,7 +106,7 @@ const Task = (props) => {
                     img={PenIcon}
                     onClick={() => {
                       setNewName(
-                        props.task.content.replace(/<br\s*[\/]?>/gi, "\n")
+                        props.task.content.replace(/<br\s*[/]?>/gi, "\n")
                       );
                       setEditMode(true);
                     }}

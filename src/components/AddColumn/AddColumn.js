@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { useSelector, useDispatch } from "react-redux";
 import { addModeSelector } from "../../selectors";
 import { setAddMode, addColumn, addTask } from "./../../actions";
+Modal.setAppElement("#root");
 
 export const AddColumn = () => {
   const addColumnMode = useSelector(addModeSelector);
