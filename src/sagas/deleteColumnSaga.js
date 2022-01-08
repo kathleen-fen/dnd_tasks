@@ -43,10 +43,8 @@ function* deleteColumn(payload) {
 
     //delete from state
     const columns = yield select(columnsSelector);
-    console.log("columns: ", columns);
     const newColumns = { ...columns };
     delete newColumns[columnId];
-    console.log("newColumns: ", newColumns);
     yield put(
       setColumns({ ...newColumns, [InitialColumnId]: newStorageColumn })
     );
