@@ -43,7 +43,13 @@ function* deleteColumn(payload) {
 
     //delete from state
     const columns = yield select(columnsSelector);
-    yield put(setColumns({ ...columns, [InitialColumnId]: newStorageColumn }));
+    console.log("columns: ", columns);
+    const newColumns = { ...columns };
+    delete newColumns[columnId];
+    console.log("newColumns: ", newColumns);
+    yield put(
+      setColumns({ ...newColumns, [InitialColumnId]: newStorageColumn })
+    );
     yield put(setColumnOrder(newColumnOrder));
   } catch (error) {
     console.log("error in put: ", error);
