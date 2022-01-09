@@ -6,4 +6,5 @@ export const defaultState = fromJS({
   columnOrder: [],
   loading: true,
   addMode: false,
+  error: null,
 });

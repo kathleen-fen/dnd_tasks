@@ -7,6 +7,7 @@ import {
   setTasks,
   setColumnOrder,
   setLoading,
+  setError,
 } from "./../actions";
 
 export function* allInfoSaga() {
@@ -38,8 +39,8 @@ export function* allInfoSaga() {
     yield put(setColumnOrder(newColumnOrder));
     yield put(setColumns(columns));
     yield put(setTasks(tasks));
-    yield put(setLoading(false));
   } catch (e) {
-    console.log("error all info: ", e);
+    yield put(setError(e));
   }
+  yield put(setLoading(false));
 }

@@ -57,11 +57,6 @@ const Task = (props) => {
         setEditMode(false);
         setNewName(props.task.content);
         break;
-      /*  case "Enter":
-        //change task name
-        setEditMode(false);
-        dispatch(editTask({ id: props.task.id, content: newName }));
-        break; */
       default:
         break;
     }

@@ -5,6 +5,7 @@ import {
   setLoading,
   setColumns,
   setColumnOrder,
+  setError,
 } from "../actions";
 import {
   columnsSelector,
@@ -50,7 +51,7 @@ function* deleteColumn(payload) {
     );
     yield put(setColumnOrder(newColumnOrder));
   } catch (error) {
-    console.log("error in put: ", error);
+    yield put(setError(error));
   }
   yield put(setLoading(false));
 }

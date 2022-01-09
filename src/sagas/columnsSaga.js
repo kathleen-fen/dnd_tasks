@@ -1,7 +1,7 @@
 import { takeEvery, put, select, call } from "redux-saga/effects";
 import { columnsSelector } from "./../selectors";
 
-import { UPDATE_COLUMNS, setColumns, setLoading } from "../actions";
+import { UPDATE_COLUMNS, setColumns, setLoading, setError } from "../actions";
 import * as Api from "./../api";
 
 function* changeOrder(payload) {
@@ -12,8 +12,8 @@ function* changeOrder(payload) {
   try {
     yield call(Api.putColumns, columns);
   } catch (error) {
+    yield put(setError(error));
     yield put(setColumns(prevCol));
-    console.log("error in put: ", error);
   }
   yield put(setLoading(false));
 }

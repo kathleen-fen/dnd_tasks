@@ -1,6 +1,6 @@
 import { takeEvery, put, select, call } from "redux-saga/effects";
 
-import { DELETE_TASK, setLoading, setColumns } from "../actions";
+import { DELETE_TASK, setLoading, setColumns, setError } from "../actions";
 import { columnsSelector } from "./../selectors";
 import * as Api from "./../api";
 
@@ -25,7 +25,7 @@ function* deleteTask(payload) {
       })
     );
   } catch (error) {
-    console.log("error in put: ", error);
+    yield put(setError(error));
   }
   yield put(setLoading(false));
 }

@@ -1,6 +1,6 @@
 import { takeEvery, put, select, call } from "redux-saga/effects";
 
-import { EDIT_COLUMN, setLoading, setColumns } from "../actions";
+import { EDIT_COLUMN, setLoading, setColumns, setError } from "../actions";
 import { columnSelector, columnsSelector } from "../selectors";
 import * as Api from "./../api";
 
@@ -17,7 +17,7 @@ function* editColumn(payload) {
     // edit in database
     yield call(Api.editColumn, columnId, columnTitle);
   } catch (error) {
-    console.log("error in patch: ", error);
+    yield put(setError(error));
     yield put(setColumns({ ...columns }));
   }
   yield put(setLoading(false));

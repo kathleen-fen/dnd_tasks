@@ -1,6 +1,6 @@
 import { takeEvery, put, select, call } from "redux-saga/effects";
 
-import { EDIT_TASK, setLoading, setTasks } from "../actions";
+import { EDIT_TASK, setLoading, setTasks, setError } from "../actions";
 import { tasksSelector } from "../selectors";
 import * as Api from "./../api";
 
@@ -14,7 +14,7 @@ function* editTask(payload) {
     yield call(Api.editTask, id, content);
   } catch (error) {
     yield put(setTasks(tasks));
-    console.log("error in patch: ", error);
+    yield put(setError(error));
   }
   yield put(setLoading(false));
 }
