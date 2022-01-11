@@ -17,6 +17,7 @@ function* signin(payload) {
     yield localStorage.setItem("token", data.idToken);
     yield localStorage.setItem("expiration", expiration);
     yield localStorage.setItem("refreshToken", data.refreshToken);
+    yield localStorage.setItem("user", data.email);
     //put auth data to state
     console.log("setAuth(true): ", setAuth(true));
     yield put(setAuth(true));

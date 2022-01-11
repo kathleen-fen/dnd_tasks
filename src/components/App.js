@@ -17,7 +17,24 @@ const App = () => {
     }
   }, [errorState, addToast]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("useEffect");
+    const token = localStorage.getItem("token");
+    const expiration = new Date(localStorage.getItem("expiration"));
+    const user = localStorage.getItem("user");
+    console.log("data: ", { token, expiration, user });
+    const now = new Date();
+    if (token && expiration > now) {
+      dispatch(
+        setAuthData({
+          token,
+          expiration,
+          user,
+        })
+      );
+      dispatch(setAuth(true));
+    }
+  }, [dispatch]);
   return <RouteList />;
 };
 
