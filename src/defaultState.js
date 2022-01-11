@@ -12,4 +12,7 @@ export const defaultState = fromJS({
     message: null,
     act: {},
   },
+  auth: false,
+  token: null,
+  expiration: null,
 });
