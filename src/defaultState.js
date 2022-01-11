@@ -13,6 +13,9 @@ export const defaultState = fromJS({
     act: {},
   },
   auth: false,
-  token: null,
-  expiration: null,
+  authData: {
+    token: null,
+    expiration: null,
+    user: null,
+  },
 });

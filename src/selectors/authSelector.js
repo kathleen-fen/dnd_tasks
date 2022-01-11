@@ -3,3 +3,8 @@ export const authSelector = createSelector(
   (state) => state.get(`auth`),
   (auth) => auth
 );
+
+export const authDataSelector = createSelector(
+  (state) => state.get(`authData`),
+  (authData) => authData
+);

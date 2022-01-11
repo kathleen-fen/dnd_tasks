@@ -101,6 +101,7 @@ const Column = (props) => {
                       onChange={changeTitleHandler}
                       onBlur={onBlurHandler}
                       onKeyDown={onKeyDownHandler}
+                      autoFocus={true}
                     />
                   ) : (
                     <React.Fragment>

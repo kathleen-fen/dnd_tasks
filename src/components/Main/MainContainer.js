@@ -4,14 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { useToasts } from "react-toast-notifications";
 
 import Column from "../Column";
 import {
   columnOrderSelector,
   columnsSelector,
   loadingSelector,
-  errorSelector,
 } from "./../../selectors";
 import { getAllInfo, updateColumnOrder, updateColumns } from "./../../actions";
 import { AddColumn } from "../AddColumn/AddColumn";
@@ -30,16 +28,10 @@ export const MainContainer = (props) => {
   const columnOrder = useSelector(columnOrderSelector);
   const columns = useSelector(columnsSelector);
   const loading = useSelector(loadingSelector);
-  const errorState = useSelector(errorSelector);
-  const { addToast } = useToasts();
+
   useEffect(() => {
     dispatch(getAllInfo());
   }, [dispatch]);
-  useEffect(() => {
-    if (errorState) {
-      addToast(String(errorState), { appearance: "error" });
-    }
-  }, [errorState, addToast]);
 
   const res = columnOrder.map((columnId, index) => {
     return columnId !== InitialColumnId ? (
@@ -47,7 +39,6 @@ export const MainContainer = (props) => {
     ) : null;
   });
   const onDragEnd = (result) => {
-    addToast("Toast", { appearance: "error" });
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {

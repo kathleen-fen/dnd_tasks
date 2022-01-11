@@ -6,4 +6,4 @@ export { addModeSelector } from "./addModeSelector";
 export { errorSelector } from "./errorSelector";
 export { confirmSelector } from "./confirmSelector";
 export { confirmStatusSelector } from "./confirmStatusSelector";
-export { authSelector } from "./authSelector";
+export { authSelector, authDataSelector } from "./authSelector";

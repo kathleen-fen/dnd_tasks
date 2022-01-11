@@ -1,15 +1,24 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
 
-import { getStore } from "../getStore";
+import { useDispatch, useSelector } from "react-redux";
+import { useToasts } from "react-toast-notifications";
+
 import { RouteList } from "./RouteList";
-const store = getStore();
+import { setAuth, setAuthData } from "./../actions";
+import { errorSelector } from "./../selectors";
+
 const App = () => {
-  return (
-    <Provider store={store}>
-      <RouteList />
-    </Provider>
-  );
+  const errorState = useSelector(errorSelector);
+  const { addToast } = useToasts();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (errorState) {
+      addToast(String(errorState), { appearance: "error" });
+    }
+  }, [errorState, addToast]);
+
+  useEffect(() => {}, []);
+  return <RouteList />;
 };
 
 export default App;

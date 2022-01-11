@@ -5,3 +5,4 @@ export { addMode } from "./addMode";
 export { loading } from "./loading";
 export { error } from "./error";
 export { confirm, confirmStatus } from "./confirm";
+export { auth, authData } from "./auth";

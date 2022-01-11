@@ -17,3 +17,5 @@ export { editColumn, EDIT_COLUMN } from "./editColumn";
 export { setError, SET_ERROR } from "./setError";
 export { setConfirm, SET_CONFIRM } from "./setConfirm";
 export { setConfirmStatus, SET_CONFIRM_STATUS } from "./setConfirmStatus";
+export { setAuth, setAuthData, SET_AUTH, SET_AUTH_DATA } from "./setAuth";
+export { signin, SIGNIN } from "./signin";

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { Api_url } from "./../settings";
-import { InitialColumnId } from "./../settings";
+import { InitialColumnId, API_KEY } from "./../settings";
 
 export const getAllState = () => {
   return axios.get(`${Api_url}/state.json`);
@@ -71,4 +71,15 @@ export const editColumn = (columnId, columnTitle) => {
   return axios.patch(`${Api_url}/state/columns/${columnId}/.json`, {
     title: columnTitle,
   });
+};
+
+export const signin = (login, password) => {
+  return axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
+    {
+      email: login,
+      password: password,
+      returnSecureToken: true,
+    }
+  );
 };
