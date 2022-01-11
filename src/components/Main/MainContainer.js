@@ -18,6 +18,7 @@ import { AddColumn } from "../AddColumn/AddColumn";
 import { InitialColumnId } from "../../settings";
 import TaskStorage from "../TaskStorage";
 import { Loader } from "../Loader/Loader";
+import { Confirm } from "./../Confirm";
 
 const Container = styled.div`
   display: flex;
@@ -106,6 +107,7 @@ export const MainContainer = (props) => {
     <React.Fragment>
       {loading ? <Loader /> : null}
       <AddColumn />
+      <Confirm />
       <DragDropContext
         onDragEnd={onDragEnd}
         onDragStart={onDragStart}

@@ -7,4 +7,9 @@ export const defaultState = fromJS({
   loading: true,
   addMode: false,
   error: null,
+  confirmStatus: false,
+  confirm: {
+    message: null,
+    act: {},
+  },
 });

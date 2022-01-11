@@ -8,7 +8,12 @@ import TrashIcon from "./../images/trash-alt-solid.svg";
 import PenIcon from "./../images/pen-solid.svg";
 import CheckIcon from "./../images/check-solid.svg";
 import CrossIcon from "./../images/times-solid.svg";
-import { deleteTask, editTask } from "./../actions";
+import {
+  deleteTask,
+  editTask,
+  setConfirm,
+  setConfirmStatus,
+} from "./../actions";
 import { TextArea } from "./TextArea";
 
 const Container = styled.div`
@@ -31,12 +36,16 @@ const Task = (props) => {
   const dispatch = useDispatch();
   const deleteTaskHandler = () => {
     dispatch(
-      deleteTask({
-        columnId: props.columnId,
-        taskId: props.task.id,
-        taskIndex: props.index,
+      setConfirm({
+        message: "You are going to delete task!",
+        act: deleteTask({
+          columnId: props.columnId,
+          taskId: props.task.id,
+          taskIndex: props.index,
+        }),
       })
     );
+    dispatch(setConfirmStatus(true));
   };
   const changeContentHandler = (e) => {
     setNewName(e.target.value);

@@ -8,7 +8,12 @@ import { columnTasksSelector, columnSelector } from "./../selectors";
 import { Icon } from "./Icon";
 import TrashIcon from "./../images/trash-alt-solid.svg";
 import PenIcon from "./../images/pen-solid.svg";
-import { deleteColumn, editColumn } from "./../actions";
+import {
+  deleteColumn,
+  editColumn,
+  setConfirm,
+  setConfirmStatus,
+} from "./../actions";
 import { Input } from "./Input";
 
 const Container = styled.div`
@@ -48,7 +53,13 @@ const Column = (props) => {
   const dispatch = useDispatch();
 
   const deleteColumnHandler = () => {
-    dispatch(deleteColumn({ columnId: column.id }));
+    dispatch(
+      setConfirm({
+        message: "You are going to delete column!",
+        act: deleteColumn({ columnId: column.id }),
+      })
+    );
+    dispatch(setConfirmStatus(true));
   };
 
   const changeTitleHandler = (e) => {

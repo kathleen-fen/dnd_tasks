@@ -46,12 +46,14 @@ function* deleteColumn(payload) {
     const columns = yield select(columnsSelector);
     const newColumns = { ...columns };
     delete newColumns[columnId];
+    console.log("column: ", column);
     yield put(
       setColumns({ ...newColumns, [InitialColumnId]: newStorageColumn })
     );
     yield put(setColumnOrder(newColumnOrder));
   } catch (error) {
-    yield put(setError(error));
+    yield put(setError(String(error) + "delete saga"));
+    console.log(error);
   }
   yield put(setLoading(false));
 }

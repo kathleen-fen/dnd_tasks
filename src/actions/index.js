@@ -15,3 +15,5 @@ export { deleteColumn, DELETE_COLUMN } from "./deleteColumn";
 export { editTask, EDIT_TASK } from "./editTask";
 export { editColumn, EDIT_COLUMN } from "./editColumn";
 export { setError, SET_ERROR } from "./setError";
+export { setConfirm, SET_CONFIRM } from "./setConfirm";
+export { setConfirmStatus, SET_CONFIRM_STATUS } from "./setConfirmStatus";
