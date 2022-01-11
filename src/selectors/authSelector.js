@@ -5,6 +5,6 @@ export const authSelector = createSelector(
 );
 
 export const authDataSelector = createSelector(
-  (state) => state.get(`authData`),
+  (state) => state.get(`authData`).toJS(),
   (authData) => authData
 );

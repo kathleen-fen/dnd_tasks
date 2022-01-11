@@ -1,4 +1,4 @@
-import { take, put, call } from "redux-saga/effects";
+import { take, put, call, select } from "redux-saga/effects";
 
 import * as Api from "./../api";
 import {
@@ -9,12 +9,14 @@ import {
   setLoading,
   setError,
 } from "./../actions";
+import { authDataSelector } from "./../selectors";
 
 export function* allInfoSaga() {
   yield take(GET_ALL_INFO);
+  const { token } = yield select(authDataSelector);
   yield put(setLoading(true));
   try {
-    const response = yield call(Api.getAllState);
+    const response = yield call(Api.getAllState, token);
     let { columns, columnOrder, tasks } = response.data;
     Object.keys(columns).forEach((el) => {
       columns[el].id = el;

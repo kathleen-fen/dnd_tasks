@@ -3,8 +3,8 @@ import axios from "axios";
 import { Api_url } from "./../settings";
 import { InitialColumnId, API_KEY } from "./../settings";
 
-export const getAllState = () => {
-  return axios.get(`${Api_url}/state.json`);
+export const getAllState = (token) => {
+  return axios.get(`${Api_url}/state.json?auth=${token}`);
 };
 
 export const putColumnOrder = (columnOrder) => {
