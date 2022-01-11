@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 import { signin } from "../actions";
 import { authSelector } from "../selectors";
 
 export const Login = () => {
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -16,9 +18,9 @@ export const Login = () => {
   const auth = useSelector(authSelector);
   useEffect(() => {
     if (auth) {
-      navigate("/");
+      navigate(from, { replace: true });
     }
-  }, [auth, navigate]);
+  }, [auth, navigate, from]);
   return (
     <React.Fragment>
       <form
