@@ -1,17 +1,18 @@
 import { takeEvery, put, select, call } from "redux-saga/effects";
 
 import { EDIT_TASK, setLoading, setTasks, setError } from "../actions";
-import { tasksSelector } from "../selectors";
+import { tasksSelector, authDataSelector } from "../selectors";
 import * as Api from "./../api";
 
 function* editTask(payload) {
+  const { token } = yield select(authDataSelector);
   yield put(setLoading(true));
   const { content, id } = payload.newTask;
   const tasks = yield select(tasksSelector);
   const newTasks = { ...tasks, [id]: { ...tasks[id], content: content } };
   yield put(setTasks(newTasks));
   try {
-    yield call(Api.editTask, id, content);
+    yield call(Api.editTask, id, content, token);
   } catch (error) {
     yield put(setTasks(tasks));
     yield put(setError(error));

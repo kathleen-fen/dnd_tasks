@@ -7,15 +7,20 @@ import {
   setLoading,
   setError,
 } from "../actions";
-import { columnsSelector, columnOrderSelector } from "../selectors";
+import {
+  columnsSelector,
+  columnOrderSelector,
+  authDataSelector,
+} from "../selectors";
 import * as Api from "./../api";
 
 function* addColumn(payload) {
+  const { token } = yield select(authDataSelector);
   try {
     yield put(setLoading(true));
     const { newColumn } = payload;
-    const { data } = yield Api.addColumn(newColumn);
-    yield call(Api.addColumnOrder, data.name);
+    const { data } = yield Api.addColumn(newColumn, token);
+    yield call(Api.addColumnOrder, data.name, token);
     const column = { id: data.name, ...newColumn };
     const columns = yield select(columnsSelector);
     const columnOrder = yield select(columnOrderSelector);
@@ -23,10 +28,10 @@ function* addColumn(payload) {
     const newColumnOrder = [...columnOrder, data.name];
     yield put(setColumns(newColumns));
     yield put(setColumnOrder(newColumnOrder));
-    yield put(setLoading(false));
   } catch (error) {
     yield put(setError(error));
   }
+  yield put(setLoading(false));
 }
 
 export function* addColumnSaga() {

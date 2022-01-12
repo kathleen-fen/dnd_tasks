@@ -17,5 +17,6 @@ export const defaultState = fromJS({
     token: null,
     expiration: null,
     user: null,
+    refreshToken: null,
   },
 });

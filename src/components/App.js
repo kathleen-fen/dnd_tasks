@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 
 import { RouteList } from "./RouteList";
-import { setAuth, setAuthData } from "./../actions";
+import { auth } from "./../actions";
 import { errorSelector } from "./../selectors";
 
 const App = () => {
@@ -18,22 +18,7 @@ const App = () => {
   }, [errorState, addToast]);
 
   useEffect(() => {
-    console.log("useEffect");
-    const token = localStorage.getItem("token");
-    const expiration = new Date(localStorage.getItem("expiration"));
-    const user = localStorage.getItem("user");
-    console.log("data: ", { token, expiration, user });
-    const now = new Date();
-    if (token && expiration > now) {
-      dispatch(
-        setAuthData({
-          token,
-          expiration,
-          user,
-        })
-      );
-      dispatch(setAuth(true));
-    }
+    dispatch(auth());
   }, [dispatch]);
   return <RouteList />;
 };

@@ -7,15 +7,16 @@ import {
   setLoading,
   setError,
 } from "../actions";
-import { tasksSelector, columnsSelector } from "../selectors";
+import { tasksSelector, columnsSelector, authDataSelector } from "../selectors";
 import * as Api from "./../api";
 import { InitialColumnId } from "./../settings";
 
 function* addTask(payload) {
+  const { token } = yield select(authDataSelector);
   try {
     yield put(setLoading(true));
     const { newTask } = payload;
-    const { data } = yield call(Api.addTask, newTask);
+    const { data } = yield call(Api.addTask, newTask, token);
     const task = { id: data.name, ...newTask };
     const tasks = yield select(tasksSelector);
     const newTasks = { ...tasks, [data.name]: task };
@@ -36,7 +37,8 @@ function* addTask(payload) {
       InitialColumnId,
       columns[InitialColumnId].taskIds
         ? [...columns[InitialColumnId].taskIds, data.name]
-        : [data.name]
+        : [data.name],
+      token
     );
 
     yield put(setTasks(newTasks));

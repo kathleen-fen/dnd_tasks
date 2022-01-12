@@ -1,7 +1,6 @@
-import { takeEvery, put, select, call } from "redux-saga/effects";
+import { takeEvery, put, call } from "redux-saga/effects";
 
 import { SIGNIN, setLoading, setError, setAuth, setAuthData } from "../actions";
-import {} from "../selectors";
 import * as Api from "./../api";
 
 function* signin(payload) {
@@ -10,7 +9,6 @@ function* signin(payload) {
   try {
     const { data } = yield call(Api.signin, login, password);
 
-    console.log("responce: ", data);
     const now = new Date();
     const expiration = new Date(+now + data.expiresIn * 1000);
     //saving auth data to localStorage
@@ -19,13 +17,13 @@ function* signin(payload) {
     yield localStorage.setItem("refreshToken", data.refreshToken);
     yield localStorage.setItem("user", data.email);
     //put auth data to state
-    console.log("setAuth(true): ", setAuth(true));
     yield put(setAuth(true));
     yield put(
       setAuthData({
         token: data.idToken,
         expiration: expiration,
         user: data.email,
+        refreshToken: data.refreshToken,
       })
     );
   } catch (error) {

@@ -8,3 +8,4 @@ export { editTaskSaga } from "./editTaskSaga";
 export { deleteColumnSaga } from "./deleteColumnSaga";
 export { editColumnSaga } from "./editColumnSaga";
 export { signinSaga } from "./signinSaga";
+export { authSaga } from "./authSaga";

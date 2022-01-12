@@ -19,3 +19,4 @@ export { setConfirm, SET_CONFIRM } from "./setConfirm";
 export { setConfirmStatus, SET_CONFIRM_STATUS } from "./setConfirmStatus";
 export { setAuth, setAuthData, SET_AUTH, SET_AUTH_DATA } from "./setAuth";
 export { signin, SIGNIN } from "./signin";
+export { auth, AUTH } from "./auth";
