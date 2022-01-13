@@ -10,6 +10,7 @@ import {
   columnOrderSelector,
   columnsSelector,
   loadingSelector,
+  authDataSelector,
 } from "./../../selectors";
 import { getAllInfo, updateColumnOrder, updateColumns } from "./../../actions";
 import { AddColumn } from "../AddColumn/AddColumn";
@@ -17,6 +18,7 @@ import { InitialColumnId } from "../../settings";
 import TaskStorage from "../TaskStorage";
 import { Loader } from "../Loader/Loader";
 import { Confirm } from "./../Confirm";
+import { users } from "../../users";
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +30,9 @@ export const MainContainer = (props) => {
   const columnOrder = useSelector(columnOrderSelector);
   const columns = useSelector(columnsSelector);
   const loading = useSelector(loadingSelector);
+  const authData = useSelector(authDataSelector);
+  const isAdmin =
+    authData.user && users[authData.user] && users[authData.user].admin;
 
   useEffect(() => {
     dispatch(getAllInfo());
@@ -35,7 +40,12 @@ export const MainContainer = (props) => {
 
   const res = columnOrder.map((columnId, index) => {
     return columnId !== InitialColumnId ? (
-      <Column key={columnId} index={index} columnId={columnId} />
+      <Column
+        key={columnId}
+        index={index}
+        columnId={columnId}
+        isAdmin={isAdmin}
+      />
     ) : null;
   });
   const onDragEnd = (result) => {
@@ -113,7 +123,9 @@ export const MainContainer = (props) => {
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <Container>
                 <React.Fragment>
-                  <TaskStorage columnId={InitialColumnId} />
+                  {isAdmin ? (
+                    <TaskStorage isAdmin={isAdmin} columnId={InitialColumnId} />
+                  ) : null}
                   {res}
                 </React.Fragment>
               </Container>

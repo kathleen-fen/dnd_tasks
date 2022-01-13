@@ -105,18 +105,21 @@ const Task = (props) => {
                 <div
                   dangerouslySetInnerHTML={{ __html: props.task.content }}
                 ></div>
-                <Icons>
-                  <Icon
-                    img={PenIcon}
-                    onClick={() => {
-                      setNewName(
-                        props.task.content.replace(/<br\s*[/]?>/gi, "\n")
-                      );
-                      setEditMode(true);
-                    }}
-                  />
-                  <Icon img={TrashIcon} onClick={deleteTaskHandler} />
-                </Icons>
+
+                {props.isAdmin ? (
+                  <Icons>
+                    <Icon
+                      img={PenIcon}
+                      onClick={() => {
+                        setNewName(
+                          props.task.content.replace(/<br\s*[/]?>/gi, "\n")
+                        );
+                        setEditMode(true);
+                      }}
+                    />
+                    <Icon img={TrashIcon} onClick={deleteTaskHandler} />
+                  </Icons>
+                ) : null}
               </React.Fragment>
             )}
           </Container>

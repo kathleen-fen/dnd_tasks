@@ -106,16 +106,19 @@ const Column = (props) => {
                   ) : (
                     <React.Fragment>
                       <Title>{column.title}</Title>
-                      <Icons>
-                        <Icon
-                          img={PenIcon}
-                          onClick={() => {
-                            setNewName(column.title);
-                            setEditMode(true);
-                          }}
-                        />
-                        <Icon img={TrashIcon} onClick={deleteColumnHandler} />
-                      </Icons>
+
+                      {props.isAdmin ? (
+                        <Icons>
+                          <Icon
+                            img={PenIcon}
+                            onClick={() => {
+                              setNewName(column.title);
+                              setEditMode(true);
+                            }}
+                          />
+                          <Icon img={TrashIcon} onClick={deleteColumnHandler} />
+                        </Icons>
+                      ) : null}
                     </React.Fragment>
                   )}{" "}
                 </TitleContainer>
@@ -131,6 +134,7 @@ const Column = (props) => {
                               task={task}
                               index={index}
                               columnId={props.columnId}
+                              isAdmin={props.isAdmin}
                             />
                           ) : null;
                         })}

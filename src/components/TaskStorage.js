@@ -47,6 +47,7 @@ const TaskStorage = (props) => {
                         task={task}
                         index={index}
                         columnId={props.columnId}
+                        isAdmin={props.isAdmin}
                       />
                     ) : null;
                   })}
