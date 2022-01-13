@@ -13,9 +13,11 @@ import { authDataSelector } from "./../selectors";
 
 export function* allInfoSaga() {
   yield take(GET_ALL_INFO);
-  const { token } = yield select(authDataSelector);
+  // const { token } = yield select(authDataSelector);
   yield put(setLoading(true));
   try {
+    yield Api.checkAuth();
+    const { token } = yield select(authDataSelector);
     const response = yield call(Api.getAllState, token);
     let { columns, columnOrder, tasks } = response.data;
     Object.keys(columns).forEach((el) => {

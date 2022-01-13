@@ -17,7 +17,6 @@ import * as Api from "./../api";
 import { InitialColumnId } from "./../settings";
 
 function* deleteColumn(payload) {
-  const { token } = yield select(authDataSelector);
   try {
     yield put(setLoading(true));
     const { columnId } = payload.column;
@@ -35,6 +34,8 @@ function* deleteColumn(payload) {
     const newColumnOrder = columnOrder.filter((el) => el !== columnId);
 
     //delete from columnOrder
+    yield Api.checkAuth();
+    const { token } = yield select(authDataSelector);
     yield call(Api.putColumnOrder, newColumnOrder, token);
     //edit storage column
     yield call(
