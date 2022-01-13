@@ -15,11 +15,10 @@ import {
 import * as Api from "./../api";
 
 function* addColumn(payload) {
+  const { token } = yield select(authDataSelector);
   try {
     yield put(setLoading(true));
     const { newColumn } = payload;
-    yield Api.checkAuth();
-    const { token } = yield select(authDataSelector);
     const { data } = yield Api.addColumn(newColumn, token);
     yield call(Api.addColumnOrder, data.name, token);
     const column = { id: data.name, ...newColumn };

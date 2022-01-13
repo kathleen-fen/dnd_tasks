@@ -5,13 +5,12 @@ import { UPDATE_COLUMNS, setColumns, setLoading, setError } from "../actions";
 import * as Api from "./../api";
 
 function* changeOrder(payload) {
+  const { token } = yield select(authDataSelector);
   const { columns } = payload;
   const prevCol = yield select(columnsSelector);
   yield put(setLoading(true));
   yield put(setColumns(columns));
   try {
-    yield Api.checkAuth();
-    const { token } = yield select(authDataSelector);
     yield call(Api.putColumns, columns, token);
   } catch (error) {
     yield put(setError(error));

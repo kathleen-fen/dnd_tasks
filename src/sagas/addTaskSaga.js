@@ -12,11 +12,10 @@ import * as Api from "./../api";
 import { InitialColumnId } from "./../settings";
 
 function* addTask(payload) {
+  const { token } = yield select(authDataSelector);
   try {
     yield put(setLoading(true));
     const { newTask } = payload;
-    yield Api.checkAuth();
-    const { token } = yield select(authDataSelector);
     const { data } = yield call(Api.addTask, newTask, token);
     const task = { id: data.name, ...newTask };
     const tasks = yield select(tasksSelector);

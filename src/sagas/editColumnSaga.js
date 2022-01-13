@@ -10,7 +10,7 @@ import * as Api from "./../api";
 
 function* editColumn(payload) {
   const columns = yield select(columnsSelector);
-
+  const { token } = yield select(authDataSelector);
   try {
     yield put(setLoading(true));
     const { columnId, columnTitle } = payload.column;
@@ -20,8 +20,6 @@ function* editColumn(payload) {
     //edit in state
     yield put(setColumns({ ...columns, [columnId]: { ...newColumn } }));
     // edit in database
-    yield Api.checkAuth();
-    const { token } = yield select(authDataSelector);
     yield call(Api.editColumn, columnId, columnTitle, token);
   } catch (error) {
     yield put(setError(error));

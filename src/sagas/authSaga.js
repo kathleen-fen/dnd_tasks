@@ -8,7 +8,6 @@ function* auth() {
   yield put(setLoading(true));
   try {
     // getting auth data from localStorage
-    yield Api.checkAuth();
     const token = yield localStorage.getItem("token");
     const expirationData = yield localStorage.getItem("expiration");
     const expiration = new Date(expirationData);

@@ -1,19 +1,7 @@
 import axios from "axios";
-import { put, select, call } from "redux-saga/effects";
-
-import { authDataSelector, authSelector } from "./../selectors";
-import { auth } from "./../actions";
 
 import { Api_url } from "./../settings";
 import { InitialColumnId, API_KEY } from "./../settings";
-
-export function* checkAuth() {
-  const { expiration } = yield select(authDataSelector);
-  const now = new Date();
-  if (now >= expiration) {
-    yield put(auth());
-  }
-}
 
 export const getAllState = (token) => {
   return axios.get(`${Api_url}/state.json?auth=${token}`);
