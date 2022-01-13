@@ -1,11 +1,10 @@
 //TODO to add call effect...
 import { takeEvery, put } from "redux-saga/effects";
 
-import { setLoading, setError, setAuth, setAuthData, AUTH } from "../actions";
+import { setError, setAuth, setAuthData, AUTH } from "../actions";
 import * as Api from "../api";
 
 function* auth() {
-  yield put(setLoading(true));
   try {
     // getting auth data from localStorage
     const token = yield localStorage.getItem("token");
@@ -15,7 +14,7 @@ function* auth() {
     const refreshToken = yield localStorage.getItem("refreshToken");
     const now = new Date();
     // check token, if expired - refresh
-    if (token && expiration > now) {
+    if (token && new Date(expiration - 60000) > now) {
       yield put(
         setAuthData({
           token,
@@ -55,7 +54,6 @@ function* auth() {
     );
     yield put(setAuth(false));
   }
-  yield put(setLoading(false));
 }
 
 export function* authSaga() {

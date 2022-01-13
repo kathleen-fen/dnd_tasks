@@ -9,3 +9,5 @@ export { deleteColumnSaga } from "./deleteColumnSaga";
 export { editColumnSaga } from "./editColumnSaga";
 export { signinSaga } from "./signinSaga";
 export { authSaga } from "./authSaga";
+export { checkAuthSaga } from "./checkAuthSaga";
+//TODO retry generator
