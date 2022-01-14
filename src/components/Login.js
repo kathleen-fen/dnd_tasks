@@ -79,7 +79,13 @@ export const Login = () => {
             </FormHelperText>
           </FormControl>
 
-          <Button variant="contained" onClick={submitHandler}>
+          <Button
+            variant="contained"
+            onClick={submitHandler}
+            sx={{
+              display: "block",
+            }}
+          >
             Sign in
           </Button>
         </form>

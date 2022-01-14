@@ -8,4 +8,10 @@ export const users = {
   "user@mail.ru": {
     admin: false,
   },
+  "user@task.com": {
+    admin: false,
+  },
+  "admin@task.com": {
+    admin: true,
+  },
 };

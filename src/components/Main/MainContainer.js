@@ -118,7 +118,7 @@ export const MainContainer = (props) => {
           dispatch(logout());
         }}
       >
-        Logout
+        Log out
       </Button>
       {loading ? <Loader /> : null}
       <AddColumn />
