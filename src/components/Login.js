@@ -69,7 +69,6 @@ export const Login = () => {
               aria-describedby="password-helper-text"
               value={password}
               type="password"
-              minlength="6"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
