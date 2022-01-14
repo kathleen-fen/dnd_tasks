@@ -89,7 +89,11 @@ const Column = (props) => {
   return (
     <div>
       {column ? (
-        <Draggable draggableId={column.id} index={props.index}>
+        <Draggable
+          draggableId={column.id}
+          index={props.index}
+          isDragDisabled={!props.isAdmin}
+        >
           {(provided) => (
             <div {...provided.draggableProps} ref={provided.innerRef}>
               <Container>

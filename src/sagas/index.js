@@ -10,4 +10,5 @@ export { editColumnSaga } from "./editColumnSaga";
 export { signinSaga } from "./signinSaga";
 export { authSaga } from "./authSaga";
 export { checkAuthSaga } from "./checkAuthSaga";
+export { logoutSaga } from "./logoutSaga";
 //TODO retry generator

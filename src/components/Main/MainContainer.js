@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import Button from "@mui/material/Button";
 
 import Column from "../Column";
 import {
@@ -12,7 +13,12 @@ import {
   loadingSelector,
   authDataSelector,
 } from "./../../selectors";
-import { getAllInfo, updateColumnOrder, updateColumns } from "./../../actions";
+import {
+  getAllInfo,
+  updateColumnOrder,
+  updateColumns,
+  logout,
+} from "./../../actions";
 import { AddColumn } from "../AddColumn/AddColumn";
 import { InitialColumnId } from "../../settings";
 import TaskStorage from "../TaskStorage";
@@ -106,6 +112,14 @@ export const MainContainer = (props) => {
   const onDragUpdate = (update) => {};
   return (
     <React.Fragment>
+      <Button
+        variant="contained"
+        onClick={() => {
+          dispatch(logout());
+        }}
+      >
+        Logout
+      </Button>
       {loading ? <Loader /> : null}
       <AddColumn />
       <Confirm />
