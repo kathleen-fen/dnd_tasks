@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Modal from "react-modal";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -16,7 +15,6 @@ import FormLabel from "@mui/material/FormLabel";
 
 import { addModeSelector } from "../../selectors";
 import { setAddMode, addColumn, addTask } from "./../../actions";
-Modal.setAppElement("#root");
 
 export const AddColumn = () => {
   const addColumnMode = useSelector(addModeSelector);
@@ -34,7 +32,6 @@ export const AddColumn = () => {
 
   const addTaskHandler = () => {
     dispatch(addTask({ content: title.replace(/\r?\n|\r/g, "<br>") }));
-    console.log("rep: ", title.replace(/\r?\n|\r/g, "<br>"));
   };
 
   const onChangeAddModeType = (e) => {
@@ -106,48 +103,5 @@ export const AddColumn = () => {
         </DialogActions>
       </Dialog>
     </div>
-    /*  <Modal isOpen={addColumnMode} contentLabel="Example Modal">
-      <form onSubmit={onSubmit}>
-        <div>
-          <input
-            type="radio"
-            value="Task"
-            onChange={onChangeAddModeType}
-            checked={addModeType === "Task"}
-          />{" "}
-          Add task
-          <input
-            type="radio"
-            value="Column"
-            onChange={onChangeAddModeType}
-            checked={addModeType === "Column"}
-          />{" "}
-          Add column
-        </div>
-        {addModeType === "Column" ? (
-          <label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            ></input>
-          </label>
-        ) : (
-          <label>
-            <textarea
-              type="text"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            ></textarea>
-          </label>
-        )}
-        <button onClick={addHandler}>Add</button>
-        <button onClick={cancelHandler}>Cancel</button>
-      </form>
-    </Modal> */
   );
 };
