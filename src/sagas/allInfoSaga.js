@@ -1,26 +1,48 @@
-import { take, call, put, apply } from "redux-saga/effects";
-import axios from "axios";
+import { take, put, call, select } from "redux-saga/effects";
 
+import * as Api from "./../api";
 import {
   GET_ALL_INFO,
   setColumns,
   setTasks,
   setColumnOrder,
+  setLoading,
+  setError,
 } from "./../actions";
+import { authDataSelector } from "./../selectors";
+
 export function* allInfoSaga() {
   yield take(GET_ALL_INFO);
-  const response = yield axios.get(
-    "https://tasks-2df6f-default-rtdb.firebaseio.com/state.json"
-  );
-  const { columns, columnOrder, tasks } = response.data;
-  console.log("saga response columns: ", columns);
-  console.log("saga response columnOrder: ", columnOrder);
-  console.log("saga response tasks: ", tasks);
-
-  yield put(setColumns(columns));
-  yield put(setTasks(tasks));
-  yield put(setColumnOrder(columnOrder));
-
-  //  const data = yield apply(response, response.json)
-  //  yield put(setCurrentUser(data))
+  const { token } = yield select(authDataSelector);
+  yield put(setLoading(true));
+  try {
+    const response = yield call(Api.getAllState, token);
+    let { columns, columnOrder, tasks } = response.data;
+    Object.keys(columns).forEach((el) => {
+      columns[el].id = el;
+      const taskIds = columns[el].taskIds;
+      const newTaskIds = [];
+      if (taskIds && !Array.isArray(taskIds)) {
+        Object.keys(taskIds).forEach((item) => {
+          newTaskIds.push(taskIds[item]);
+        });
+        columns[el].taskIds = newTaskIds;
+      }
+    });
+    tasks
+      ? Object.keys(tasks).forEach((el) => {
+          tasks[el].id = el;
+        })
+      : (tasks = {});
+    const newColumnOrder = [];
+    Object.keys(columnOrder).forEach((el) => {
+      newColumnOrder.push(columnOrder[el]);
+    });
+    yield put(setColumnOrder(newColumnOrder));
+    yield put(setColumns(columns));
+    yield put(setTasks(tasks));
+  } catch (e) {
+    yield put(setError(e));
+  }
+  yield put(setLoading(false));
 }

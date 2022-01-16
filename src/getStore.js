@@ -9,7 +9,9 @@ export const getStore = () => {
   const sagaMiddleware = createSagaMiddleware();
   const middleWares = [sagaMiddleware];
   const composables = [applyMiddleware(...middleWares)];
-  const enhancer = compose(...composables);
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const enhancer = composeEnhancers(...composables);
   const store = createStore(reducer, defaultState, enhancer);
   console.log("Saga middleware implemented!");
   initSagas(sagaMiddleware);
