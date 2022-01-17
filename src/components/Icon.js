@@ -5,7 +5,7 @@ const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 15px;
+  min-width: 25px;
   padding-left: 8px;
   cursor: pointer;
 `;

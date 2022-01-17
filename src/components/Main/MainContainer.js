@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
-import styled from "styled-components";
-import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
 
+import { AppContainer } from "./UI";
 import Column from "../Column";
 import {
   columnOrderSelector,
@@ -13,23 +13,14 @@ import {
   loadingSelector,
   authDataSelector,
 } from "./../../selectors";
-import {
-  getAllInfo,
-  updateColumnOrder,
-  updateColumns,
-  logout,
-} from "./../../actions";
+import { getAllInfo, updateColumnOrder, updateColumns } from "./../../actions";
 import { AddColumn } from "../AddColumn/AddColumn";
 import { InitialColumnId } from "../../settings";
 import TaskStorage from "../TaskStorage";
 import { Loader } from "../Loader/Loader";
 import { Confirm } from "./../Confirm";
 import { users } from "../../users";
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
+import { Header } from "../Header";
 
 export const MainContainer = (props) => {
   const dispatch = useDispatch();
@@ -112,14 +103,8 @@ export const MainContainer = (props) => {
   const onDragUpdate = (update) => {};
   return (
     <React.Fragment>
-      <Button
-        variant="contained"
-        onClick={() => {
-          dispatch(logout());
-        }}
-      >
-        Log out
-      </Button>
+      <Header />
+
       {loading ? <Loader /> : null}
       <AddColumn />
       <Confirm />
@@ -135,14 +120,15 @@ export const MainContainer = (props) => {
         >
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              <Container>
+              <CssBaseline />
+              <AppContainer maxWidth="xl">
                 <React.Fragment>
                   {isAdmin ? (
                     <TaskStorage isAdmin={isAdmin} columnId={InitialColumnId} />
                   ) : null}
                   {res}
                 </React.Fragment>
-              </Container>
+              </AppContainer>
               {provided.placeholder}
             </div>
           )}
