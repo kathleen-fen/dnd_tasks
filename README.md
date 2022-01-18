@@ -9,7 +9,7 @@
   {
     "rules": {
       ".read": "auth.uid != null",
-      ".write": "auth.uid != null"
+      ".write": "auth.uid != null && auth.uid === 'uid админа'"
     }
   } 
   ```
