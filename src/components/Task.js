@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
+import {
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  IconButton,
+  ListItemSecondaryAction,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { Icon } from "./Icon";
 import TrashIcon from "./../images/trash-alt-solid.svg";
@@ -16,15 +25,13 @@ import {
 } from "./../actions";
 import { TextArea } from "./TextArea";
 
-const Container = styled.div`
+const Container = styled(ListItem)`
   padding: 8px;
-  border: 1px solid lightgrey;
+  border: 1px solid rgb(25, 118, 210);
   border-radius: 2px;
   margin-bottom: 8px;
   background-color: ${(props) => (props.isDragging ? "lightgreen" : "white")};
   line-height: 1.5;
-  display: flex;
-  justify-content: space-between;
 `;
 const Icons = styled.div`
   display: flex;
@@ -111,7 +118,15 @@ const Task = (props) => {
                 ></div>
 
                 {props.isAdmin ? (
-                  <Icons>
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" color="primary">
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton edge="end" color="primary">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                ) : /*  <Icons>
                     <Icon
                       img={PenIcon}
                       onClick={() => {
@@ -122,8 +137,8 @@ const Task = (props) => {
                       }}
                     />
                     <Icon img={TrashIcon} onClick={deleteTaskHandler} />
-                  </Icons>
-                ) : null}
+                  </Icons> */
+                null}
               </React.Fragment>
             )}
           </Container>

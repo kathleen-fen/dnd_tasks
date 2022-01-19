@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { List } from "@mui/material";
 
 import Task from "./Task";
 import { columnTasksSelector, columnSelector } from "./../selectors";
@@ -19,15 +20,15 @@ import { Input } from "./Input";
 const Container = styled.div`
   margin: 8px;
   border-radius: 2px;
-  border: 1px solid lightgrey;
-  width: 220px;
+  border: 2px solid rgb(25, 118, 210);
+  width: 280px;
 `;
 
 const Title = styled.h3`
   padding: 8px;
 `;
 
-const TaskList = styled.div`
+const TaskList = styled(List)`
   padding: 8px;
   background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
   flex-grow: 1;

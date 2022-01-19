@@ -5,7 +5,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { AppContainer } from "./UI";
+import { AppContainer } from "../UI";
 import Column from "../Column";
 import {
   columnOrderSelector,
